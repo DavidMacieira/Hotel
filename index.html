@@ -1,14 +1,149 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    /* Bootstrap CSS and JS */
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <title>Hotel </title>
+    <title>Hotel Paraíso Real</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand text-uppercase fw-bold" href="#"><i class="fas fa-hotel me-2"></i>Paraíso Real</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link active" href="#home">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#quartos">Quartos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2 px-4" href="#" data-bs-toggle="modal" data-bs-target="#modalReserva">Reservar</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero d-flex align-items-center text-white text-center">
+        <div class="overlay"></div>
+        <div class="container position-relative">
+            <h1 class="display-3 fw-bold">Bem-vindo ao Luxo</h1>
+            <p class="lead mb-4">Experiência única de conforto e sofisticação à beira-mar.</p>
+            <a href="#quartos" class="btn btn-warning btn-lg px-5">Ver Quartos</a>
+        </div>
+    </section>
+
+    <section id="quartos" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Nossas Acomodações</h2>
+                <p class="text-muted">Escolha o conforto ideal para sua estadia</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-0">
+                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Quarto Standard">
+                        <div class="card-body">
+                            <h5 class="card-title">Suíte Standard</h5>
+                            <p class="card-text text-muted">Conforto essencial com vista para o jardim e cama King Size.</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-wifi text-warning me-2"></i>Wifi Grátis</li>
+                                <li><i class="fas fa-tv text-warning me-2"></i>TV 4K</li>
+                            </ul>
+                            <h4 class="text-primary fw-bold mb-3">R$ 350,00 <span class="fs-6 text-muted">/noite</span></h4>
+                            <button class="btn btn-outline-dark w-100" onclick="abrirReserva('Suíte Standard')">Reservar Agora</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-0">
+                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Quarto Luxo">
+                        <div class="card-body">
+                            <div class="badge bg-warning text-dark mb-2">Mais Popular</div>
+                            <h5 class="card-title">Suíte Luxo</h5>
+                            <p class="card-text text-muted">Espaço amplo com varanda privativa e hidromassagem.</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-water text-warning me-2"></i>Vista Mar</li>
+                                <li><i class="fas fa-hot-tub text-warning me-2"></i>Hidromassagem</li>
+                            </ul>
+                            <h4 class="text-primary fw-bold mb-3">R$ 550,00 <span class="fs-6 text-muted">/noite</span></h4>
+                            <button class="btn btn-primary w-100" onclick="abrirReserva('Suíte Luxo')">Reservar Agora</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 shadow border-0">
+                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Presidencial">
+                        <div class="card-body">
+                            <h5 class="card-title">Cobertura Presidencial</h5>
+                            <p class="card-text text-muted">O auge da exclusividade com piscina privativa e serviço de mordomo.</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-swimming-pool text-warning me-2"></i>Piscina Privada</li>
+                                <li><i class="fas fa-concierge-bell text-warning me-2"></i>Mordomo 24h</li>
+                            </ul>
+                            <h4 class="text-primary fw-bold mb-3">R$ 1.200,00 <span class="fs-6 text-muted">/noite</span></h4>
+                            <button class="btn btn-outline-dark w-100" onclick="abrirReserva('Cobertura Presidencial')">Reservar Agora</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal fade" id="modalReserva" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title"><i class="fas fa-calendar-check me-2"></i>Fazer Reserva</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formReserva">
+                        <div class="mb-3">
+                            <label class="form-label">Nome Completo</label>
+                            <input type="text" class="form-control" required placeholder="Seu nome">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">E-mail</label>
+                            <input type="email" class="form-control" required placeholder="seu@email.com">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Tipo de Quarto</label>
+                            <select class="form-select" id="selectQuarto">
+                                <option value="Suíte Standard">Suíte Standard</option>
+                                <option value="Suíte Luxo">Suíte Luxo</option>
+                                <option value="Cobertura Presidencial">Cobertura Presidencial</option>
+                            </select>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Check-in</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                            <div class="col-6 mb-3">
+                                <label class="form-label">Check-out</label>
+                                <input type="date" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">Confirmar Reserva</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white py-4 mt-auto">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2023 Hotel Paraíso Real. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
