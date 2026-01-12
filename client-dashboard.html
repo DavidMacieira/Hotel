@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta - Grand Élysée Hotel</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --dark-blue: #1a2332;
+            --light-gold: #f4e4c1;
+            --light-gray: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        /* Header */
+        .client-header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-gold) !important;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .container-client {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .welcome-section {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #2c3e50 100%);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--primary-gold) 0%, transparent 70%);
+            opacity: 0.1;
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            margin-top: 1rem;
+        }
+
+        .quick-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .section-title {
+            color: var(--dark-blue);
+            margin: 2rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary-gold);
+            display: inline-block;
+        }
+
+        .card-client {
+            background: white;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .card-header-client {
+            background: white;
+            border-bottom: 1px solid #eee;
+            padding: 1.5rem;
+            font-weight: 600;
+            color: var(--dark-blue);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-client {
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-client:hover {
+            background: #c19b2e;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline-client {
+            border: 2px solid var(--primary-gold);
+            color: var(--primary-gold);
+            background: transparent;
+            padding: 0.5rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-outline-client:hover {
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+        }
+
+        .reservation-card {
+            padding: 1.5rem;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s;
+        }
+
+        .reservation-card:hover {
+            background: var(--light-gray);
+        }
+
+        .reservation-card:last-child {
+            border-bottom: none;
+        }
+
+        .reservation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .reservation-code {
+            font-weight: 600;
+            color: var(--dark-blue);
+        }
+
+        .reservation-status {
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-confirmed {
+            background: rgba(40, 167, 69, 0.1);
+            color: #28a745;
+        }
+
+        .status-pending {
+            background: rgba(255, 193, 7, 0.1);
+            color: #ffc107;
+        }
+
+        .status-cancelled {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .reservation-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+        }
+
+        .detail-item i {
+            color: var(--primary-gold);
+            width: 20px;
+        }
+
+        .reservation-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-sm {
+            padding: 0.3rem 0.8rem;
+            font-size: 0.85rem;
+        }
+
+        /* Profile Sidebar */
+        .profile-sidebar {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            background: var(--primary-gold);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--dark-blue);
+            font-weight: 600;
+        }
+
+        .profile-info {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-info h4 {
+            margin: 0.5rem 0;
+            color: var(--dark-blue);
+        }
+
+        .profile-info p {
+            color: #666;
+            margin: 0.2rem 0;
+        }
+
+        .profile-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .profile-menu li {
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-menu a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1rem;
+            color: #666;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .profile-menu a:hover,
+        .profile-menu a.active {
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--dark-blue);
+        }
+
+        .profile-menu a i {
+            width: 20px;
+            color: var(--primary-gold);
+        }
+
+        /* Loyalty Program */
+        .loyalty-card {
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #2c3e50 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .loyalty-level {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin: 1rem 0;
+        }
+
+        .progress-bar-client {
+            background: rgba(255,255,255,0.2);
+            height: 10px;
+            border-radius: 5px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: var(--primary-gold);
+            height: 100%;
+            border-radius: 5px;
+            width: 65%;
+        }
+
+        /* Modal */
+        .modal-content {
+            border-radius: 15px;
+            border: none;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            .quick-stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .reservation-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .reservation-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light client-header">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-gem"></i> GRAND ÉLYSÉE
+            </a>
+            
+            <div class="user-menu">
+                <div class="user-avatar" id="userAvatar">JS</div>
+                <div class="d-none d-md-block">
+                    <small>Bem-vindo,</small>
+                    <div id="userName" class="fw-bold">João Silva</div>
+                </div>
+                <button class="btn btn-client btn-sm" id="logoutBtn">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container-client">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <div class="welcome-content">
+                <h1>Bem-vindo de volta!</h1>
+                <p class="lead">Gerencie suas reservas, veja ofertas exclusivas e muito mais.</p>
+                <div class="status-badge">
+                    <i class="fas fa-crown"></i>
+                    <span>Membro Gold do Programa de Fidelidade</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-calendar-check"></i>
+                </div>
+                <div class="stat-number" id="activeBookings">3</div>
+                <div class="stat-label">Reservas Ativas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <div class="stat-number" id="totalStays">12</div>
+                <div class="stat-label">Estadias Realizadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="stat-number" id="loyaltyPoints">4,850</div>
+                <div class="stat-label">Pontos de Fidelidade</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-gift"></i>
+                </div>
+                <div class="stat-number" id="availableOffers">5</div>
+                <div class="stat-label">Ofertas Disponíveis</div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Left Column - Main Content -->
+            <div class="col-lg-8">
+                <!-- Current Reservations -->
+                <h3 class="section-title">Minhas Reservas</h3>
+                <div class="card-client">
+                    <div class="card-header-client">
+                        Reservas Ativas
+                        <button class="btn btn-client" data-bs-toggle="modal" data-bs-target="#newBookingModal">
+                            <i class="fas fa-plus"></i> Nova Reserva
+                        </button>
+                    </div>
+                    <div id="currentReservations">
+                        <!-- Reservations will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Past Stays -->
+                <h3 class="section-title">Estadias Anteriores</h3>
+                <div class="card-client">
+                    <div class="card-header-client">
+                        Histórico de Estadias
+                    </div>
+                    <div id="pastStays">
+                        <!-- Past stays will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Special Offers -->
+                <h3 class="section-title">Ofertas Especiais para Você</h3>
+                <div class="card-client">
+                    <div class="card-header-client">
+                        Exclusivas para Membros
+                    </div>
+                    <div class="p-3">
+                        <div class="row g-3" id="specialOffers">
+                            <!-- Offers will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Sidebar -->
+            <div class="col-lg-4">
+                <!-- Profile Info -->
+                <div class="profile-sidebar">
+                    <div class="profile-avatar" id="profileAvatar">JS</div>
+                    <div class="profile-info">
+                        <h4 id="profileName">João Silva</h4>
+                        <p><i class="fas fa-envelope"></i> <span id="profileEmail">cliente@exemplo.com</span></p>
+                        <p><i class="fas fa-phone"></i> <span id="profilePhone">+351 91 123 4567</span></p>
+                        <p><i class="fas fa-map-marker-alt"></i> <span id="profileCountry">Portugal</span></p>
+                    </div>
+                    
+                    <ul class="profile-menu">
+                        <li>
+                            <a href="#" class="active">
+                                <i class="fas fa-home"></i> Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#profileModal">
+                                <i class="fas fa-user"></i> Meu Perfil
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#passwordModal">
+                                <i class="fas fa-key"></i> Alterar Senha
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-heart"></i> Favoritos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-comments"></i> Meus Comentários
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-cog"></i> Configurações
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Loyalty Program -->
+                <div class="loyalty-card">
+                    <h4>Programa de Fidelidade</h4>
+                    <div class="loyalty-level">
+                        <i class="fas fa-crown"></i> Gold
+                    </div>
+                    <p>Você está a 35% do próximo nível!</p>
+                    
+                    <div class="progress-bar-client">
+                        <div class="progress-fill"></div>
+                    </div>
+                    
+                    <p><strong>4,850 pontos</strong> acumulados</p>
+                    <button class="btn btn-client mt-2" data-bs-toggle="modal" data-bs-target="#loyaltyModal">
+                        Ver Benefícios
+                    </button>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="profile-sidebar">
+                    <h5>Ações Rápidas</h5>
+                    <div class="mt-3">
+                        <button class="btn btn-outline-client w-100 mb-2" onclick="window.location.href='index.html'">
+                            <i class="fas fa-search"></i> Buscar Quartos
+                        </button>
+                        <button class="btn btn-outline-client w-100 mb-2" data-bs-toggle="modal" data-bs-target="#supportModal">
+                            <i class="fas fa-headset"></i> Suporte 24/7
+                        </button>
+                        <button class="btn btn-outline-client w-100" data-bs-toggle="modal" data-bs-target="#invoiceModal">
+                            <i class="fas fa-file-invoice"></i> Minhas Faturas
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- New Booking Modal -->
+    <div class="modal fade" id="newBookingModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Nova Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Redirecionando para o sistema de reservas...</p>
+                    <div class="text-center">
+                        <div class="spinner-border text-warning" role="status">
+                            <span class="visually-hidden">Carregando...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Edit Modal -->
+    <div class="modal fade" id="profileModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Perfil</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="profileForm">
+                        <div class="mb-3">
+                            <label class="form-label">Nome Completo</label>
+                            <input type="text" class="form-control" id="editName">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Telefone</label>
+                            <input type="tel" class="form-control" id="editPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">País</label>
+                            <select class="form-control" id="editCountry">
+                                <option>Portugal</option>
+                                <option>Brasil</option>
+                                <option>Espanha</option>
+                                <option>França</option>
+                                <option>Outro</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-client" id="saveProfile">Salvar Alterações</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Change Modal -->
+    <div class="modal fade" id="passwordModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Alterar Senha</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="passwordForm">
+                        <div class="mb-3">
+                            <label class="form-label">Senha Atual</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nova Senha</label>
+                            <input type="password" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Confirmar Nova Senha</label>
+                            <input type="password" class="form-control">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-client">Alterar Senha</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Support Modal -->
+    <div class="modal fade" id="supportModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Suporte 24/7</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <h6><i class="fas fa-phone text-warning"></i> Telefone</h6>
+                    <p>+351 21 123 4567</p>
+                    
+                    <h6 class="mt-3"><i class="fas fa-envelope text-warning"></i> Email</h6>
+                    <p>suporte@grandelysee.com</p>
+                    
+                    <h6 class="mt-3"><i class="fas fa-clock text-warning"></i> Horário</h6>
+                    <p>24 horas por dia, 7 dias por semana</p>
+                    
+                    <div class="alert alert-info mt-3">
+                        <i class="fas fa-info-circle"></i>
+                        Para emergências, ligue diretamente para a recepção.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = localStorage.getItem('loggedInUser');
+            
+            if (!loggedInUser) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            const user = JSON.parse(loggedInUser);
+            if (user.type === 'admin') {
+                window.location.href = 'admin-dashboard.html';
+                return;
+            }
+            
+            // Load user data
+            loadUserData(user);
+            
+            // Load reservations and data
+            loadCurrentReservations();
+            loadPastStays();
+            loadSpecialOffers();
+            
+            // Setup event listeners
+            setupEventListeners();
+        });
+
+        function loadUserData(user) {
+            // Set user name from localStorage or use default
+            const userName = user.name || 'João Silva';
+            const userEmail = user.email || 'cliente@exemplo.com';
+            
+            // Update all user name displays
+            document.getElementById('userName').textContent = userName;
+            document.getElementById('profileName').textContent = userName;
+            document.getElementById('profileEmail').textContent = userEmail;
+            
+            // Set avatar initials
+            const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('userAvatar').textContent = initials;
+            document.getElementById('profileAvatar').textContent = initials;
+            
+            // Set form values
+            document.getElementById('editName').value = userName;
+            document.getElementById('editEmail').value = userEmail;
+            document.getElementById('editPhone').value = '+351 91 123 4567';
+            document.getElementById('editCountry').value = 'Portugal';
+            document.getElementById('profilePhone').textContent = '+351 91 123 4567';
+            document.getElementById('profileCountry').textContent = 'Portugal';
+        }
+
+        function loadCurrentReservations() {
+            const reservations = [
+                {
+                    code: 'RES-2024-001',
+                    room: 'Quarto Deluxe',
+                    checkin: '2024-01-20',
+                    checkout: '2024-01-25',
+                    guests: 2,
+                    price: '€1,250',
+                    status: 'confirmada'
+                },
+                {
+                    code: 'RES-2024-002',
+                    room: 'Suíte Executive',
+                    checkin: '2024-02-10',
+                    checkout: '2024-02-15',
+                    guests: 2,
+                    price: '€2,250',
+                    status: 'pendente'
+                },
+                {
+                    code: 'RES-2024-003',
+                    room: 'Quarto Deluxe',
+                    checkin: '2024-03-05',
+                    checkout: '2024-03-08',
+                    guests: 1,
+                    price: '€750',
+                    status: 'confirmada'
+                }
+            ];
+
+            const container = document.getElementById('currentReservations');
+            container.innerHTML = '';
+
+            reservations.forEach(reservation => {
+                let statusClass = '';
+                if (reservation.status === 'confirmada') statusClass = 'status-confirmed';
+                if (reservation.status === 'pendente') statusClass = 'status-pending';
+                if (reservation.status === 'cancelada') statusClass = 'status-cancelled';
+
+                const card = `
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <div class="reservation-code">${reservation.code} - ${reservation.room}</div>
+                            <span class="reservation-status ${statusClass}">
+                                ${reservation.status.toUpperCase()}
+                            </span>
+                        </div>
+                        
+                        <div class="reservation-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <span>Check-in: ${reservation.checkin}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-times"></i>
+                                <span>Check-out: ${reservation.checkout}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-users"></i>
+                                <span>${reservation.guests} hóspede(s)</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-euro-sign"></i>
+                                <span>${reservation.price}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="reservation-actions">
+                            <button class="btn btn-client btn-sm" onclick="viewReservation('${reservation.code}')">
+                                <i class="fas fa-eye"></i> Detalhes
+                            </button>
+                            <button class="btn btn-outline-client btn-sm" onclick="modifyReservation('${reservation.code}')">
+                                <i class="fas fa-edit"></i> Alterar
+                            </button>
+                            ${reservation.status === 'pendente' ? 
+                                '<button class="btn btn-outline-client btn-sm" onclick="cancelReservation(\'' + reservation.code + '\')">' +
+                                '<i class="fas fa-times"></i> Cancelar</button>' : 
+                                ''
+                            }
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function loadPastStays() {
+            const pastStays = [
+                {
+                    code: 'RES-2023-045',
+                    room: 'Suíte Presidential',
+                    dates: '15-22 Dez 2023',
+                    price: '€5,600',
+                    rating: 5
+                },
+                {
+                    code: 'RES-2023-032',
+                    room: 'Quarto Deluxe',
+                    dates: '10-15 Nov 2023',
+                    price: '€1,250',
+                    rating: 4
+                },
+                {
+                    code: 'RES-2023-021',
+                    room: 'Suíte Executive',
+                    dates: '05-12 Out 2023',
+                    price: '€2,450',
+                    rating: 5
+                }
+            ];
+
+            const container = document.getElementById('pastStays');
+            container.innerHTML = '';
+
+            pastStays.forEach(stay => {
+                let stars = '';
+                for (let i = 0; i < 5; i++) {
+                    stars += i < stay.rating ? 
+                        '<i class="fas fa-star text-warning"></i>' : 
+                        '<i class="far fa-star text-warning"></i>';
+                }
+
+                const card = `
+                    <div class="reservation-card">
+                        <div class="reservation-header">
+                            <div class="reservation-code">${stay.code} - ${stay.room}</div>
+                            <div>${stars}</div>
+                        </div>
+                        
+                        <div class="reservation-details">
+                            <div class="detail-item">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>${stay.dates}</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-euro-sign"></i>
+                                <span>${stay.price}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="reservation-actions">
+                            <button class="btn btn-outline-client btn-sm" onclick="viewInvoice('${stay.code}')">
+                                <i class="fas fa-file-invoice"></i> Fatura
+                            </button>
+                            <button class="btn btn-outline-client btn-sm" onclick="writeReview('${stay.code}')">
+                                <i class="fas fa-edit"></i> Avaliar
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function loadSpecialOffers() {
+            const offers = [
+                {
+                    title: 'Pacote Romântico',
+                    description: '2 noites + jantar + spa para casais',
+                    price: '€450',
+                    original: '€600',
+                    expires: '31/01/2024'
+                },
+                {
+                    title: 'Fim de Semana Relax',
+                    description: 'Spa ilimitado + café da manhã na cama',
+                    price: '€320',
+                    original: '€400',
+                    expires: '28/02/2024'
+                },
+                {
+                    title: 'Upgrade Grátis',
+                    description: 'Reserve 3 noites e ganhe upgrade de quarto',
+                    price: 'Aplicável',
+                    original: '',
+                    expires: '15/02/2024'
+                }
+            ];
+
+            const container = document.getElementById('specialOffers');
+            container.innerHTML = '';
+
+            offers.forEach(offer => {
+                const card = `
+                    <div class="col-md-12">
+                        <div class="card-client">
+                            <div class="card-header-client">
+                                ${offer.title}
+                                <span class="badge bg-warning">Exclusivo</span>
+                            </div>
+                            <div class="p-3">
+                                <p>${offer.description}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong class="text-warning" style="font-size: 1.2rem;">${offer.price}</strong>
+                                        ${offer.original ? 
+                                            `<small class="text-muted ms-2"><s>${offer.original}</s></small>` : 
+                                            ''
+                                        }
+                                    </div>
+                                    <div>
+                                        <small class="text-muted">Válido até: ${offer.expires}</small>
+                                    </div>
+                                </div>
+                                <button class="btn btn-client w-100 mt-2" onclick="applyOffer('${offer.title}')">
+                                    <i class="fas fa-gift"></i> Aproveitar Oferta
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        function setupEventListeners() {
+            // Logout button
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('loggedInUser');
+                window.location.href = 'login.html';
+            });
+
+            // Save profile changes
+            document.getElementById('saveProfile').addEventListener('click', function() {
+                const name = document.getElementById('editName').value;
+                const email = document.getElementById('editEmail').value;
+                const phone = document.getElementById('editPhone').value;
+                const country = document.getElementById('editCountry').value;
+
+                // Update displayed data
+                document.getElementById('userName').textContent = name;
+                document.getElementById('profileName').textContent = name;
+                document.getElementById('profileEmail').textContent = email;
+                document.getElementById('profilePhone').textContent = phone;
+                document.getElementById('profileCountry').textContent = country;
+
+                // Update avatar initials
+                const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+                document.getElementById('userAvatar').textContent = initials;
+                document.getElementById('profileAvatar').textContent = initials;
+
+                // Update localStorage
+                const loggedInUser = JSON.parse(localStorage.getItem('loggedInUser'));
+                loggedInUser.name = name;
+                loggedInUser.email = email;
+                localStorage.setItem('loggedInUser', JSON.stringify(loggedInUser));
+
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(document.getElementById('profileModal'));
+                modal.hide();
+
+                // Show success message
+                showNotification('Perfil atualizado com sucesso!', 'success');
+            });
+
+            // New booking modal
+            document.getElementById('newBookingModal').addEventListener('shown.bs.modal', function() {
+                setTimeout(() => {
+                    const modal = bootstrap.Modal.getInstance(this);
+                    modal.hide();
+                    window.open('index.html', '_blank');
+                }, 2000);
+            });
+
+            // Profile menu navigation
+            document.querySelectorAll('.profile-menu a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (!this.hasAttribute('data-bs-toggle')) {
+                        e.preventDefault();
+                        
+                        // Remove active class from all links
+                        document.querySelectorAll('.profile-menu a').forEach(l => {
+                            l.classList.remove('active');
+                        });
+                        
+                        // Add active class to clicked link
+                        this.classList.add('active');
+                        
+                        // Show message (in a real app, this would load different content)
+                        const sectionName = this.textContent.trim();
+                        showNotification(`Carregando ${sectionName}...`, 'info');
+                    }
+                });
+            });
+        }
+
+        // Action functions
+        function viewReservation(code) {
+            showNotification(`Abrindo detalhes da reserva ${code}...`, 'info');
+            // In a real app, this would open a detailed view
+        }
+
+        function modifyReservation(code) {
+            showNotification(`Modificando reserva ${code}...`, 'info');
+            // In a real app, this would open a modification form
+        }
+
+        function cancelReservation(code) {
+            if (confirm(`Tem certeza que deseja cancelar a reserva ${code}?`)) {
+                showNotification(`Reserva ${code} cancelada com sucesso!`, 'success');
+                // In a real app, this would call an API to cancel the reservation
+                setTimeout(() => {
+                    loadCurrentReservations();
+                    updateStats();
+                }, 1000);
+            }
+        }
+
+        function viewInvoice(code) {
+            showNotification(`Gerando fatura da reserva ${code}...`, 'info');
+            // In a real app, this would open or download the invoice
+        }
+
+        function writeReview(code) {
+            showNotification(`Abrindo formulário de avaliação para ${code}...`, 'info');
+            // In a real app, this would open a review form
+        }
+
+        function applyOffer(offerTitle) {
+            showNotification(`Aplicando oferta: ${offerTitle}`, 'success');
+            // In a real app, this would apply the offer to the user's account
+        }
+
+        function updateStats() {
+            // Update active bookings count
+            const activeBookingsEl = document.getElementById('activeBookings');
+            let current = parseInt(activeBookingsEl.textContent);
+            activeBookingsEl.textContent = Math.max(0, current - 1);
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} position-fixed`;
+            notification.style.cssText = `
+                top: 80px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                border-radius: 10px;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            // Add to body
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    </script>
+</body>
+</html>

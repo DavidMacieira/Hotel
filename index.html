@@ -1,149 +1,885 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hotel Paraíso Real</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="./css/style.css">
+    <title>Grand Élysée Hotel - Luxury Experience</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --dark-blue: #1a2332;
+            --light-gold: #f4e4c1;
+            --text-dark: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(26, 35, 50, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-gold) !important;
+            letter-spacing: 2px;
+        }
+
+        .nav-link {
+            color: #fff !important;
+            margin: 0 1rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-gold) !important;
+        }
+
+        .btn-reserve {
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+            padding: 0.6rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            border: none;
+            transition: all 0.3s;
+        }
+
+        .btn-reserve:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;  
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), 
+                        url('./img/valeriia-bugaiova-_pPHgeHz1uk-unsplash.jpg' );
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--light-gold);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Booking Form */
+        .booking-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .booking-form input, .booking-form select {
+            border: 2px solid #e0e0e0;
+            padding: 0.8rem;
+            border-radius: 8px;
+            transition: border 0.3s;
+        }
+
+        .booking-form input:focus, .booking-form select:focus {
+            border-color: var(--primary-gold);
+            outline: none;
+        }
+
+        /* Section Titles */
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 3px;
+            background: var(--primary-gold);
+            margin: 1rem auto;
+        }
+
+        /* Rooms Section */
+        .room-card {
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            margin-bottom: 2rem;
+        }
+
+        .room-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        .room-image {
+            height: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .room-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.3);
+            transition: opacity 0.3s;
+        }
+
+        .room-card:hover .room-image::before {
+            opacity: 0;
+        }
+
+        .room-price {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-gold);
+            color: var(--dark-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Services Section */
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .service-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .service-card:hover {
+            background: var(--light-gold);
+        }
+
+        .service-card:hover .service-icon {
+            transform: scale(1.2);
+        }
+
+        /* Gallery */
+        .gallery-item {
+            height: 300px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gallery-item::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(212, 175, 55, 0);
+            transition: background 0.3s;
+        }
+
+        .gallery-item:hover::after {
+            background: rgba(212, 175, 55, 0.3);
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.05);
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            font-size: 5rem;
+            color: var(--primary-gold);
+            opacity: 0.2;
+            position: absolute;
+            top: -10px;
+            left: 20px;
+        }
+
+        .stars {
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark-blue);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        .social-icons a {
+            color: white;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            transition: color 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary-gold);
+        }
+
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand text-uppercase fw-bold" href="#"><i class="fas fa-hotel me-2"></i>Paraíso Real</a>
+            <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> GRAND ÉLYSÉE</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link active" href="#home">Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#quartos">Quartos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#servicos">Serviços</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-primary text-white ms-2 px-4" href="#" data-bs-toggle="modal" data-bs-target="#modalReserva">Reservar</a></li>
+                <ul class="navbar-nav ms-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#home">Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#rooms">Quartos</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#services">Serviços</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contato</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+                    <li class="nav-item"><button class="btn btn-reserve">Reservar Agora</button></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <section id="home" class="hero d-flex align-items-center text-white text-center">
-        <div class="overlay"></div>
-        <div class="container position-relative">
-            <h1 class="display-3 fw-bold">Bem-vindo ao Luxo</h1>
-            <p class="lead mb-4">Experiência única de conforto e sofisticação à beira-mar.</p>
-            <a href="#quartos" class="btn btn-warning btn-lg px-5">Ver Quartos</a>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Bem-vindo ao Grand Élysée</h1>
+            <p>Experiência de Luxo Incomparável</p>
+            <button class="btn btn-reserve btn-lg">Descubra Mais</button>
         </div>
     </section>
 
-    <section id="quartos" class="py-5 bg-light">
-        <div class="container">
-            <div class="text-center mb-5">
-                <h2 class="fw-bold">Nossas Acomodações</h2>
-                <p class="text-muted">Escolha o conforto ideal para sua estadia</p>
-            </div>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 shadow border-0">
-                        <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Quarto Standard">
-                        <div class="card-body">
-                            <h5 class="card-title">Suíte Standard</h5>
-                            <p class="card-text text-muted">Conforto essencial com vista para o jardim e cama King Size.</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-wifi text-warning me-2"></i>Wifi Grátis</li>
-                                <li><i class="fas fa-tv text-warning me-2"></i>TV 4K</li>
-                            </ul>
-                            <h4 class="text-primary fw-bold mb-3">R$ 350,00 <span class="fs-6 text-muted">/noite</span></h4>
-                            <button class="btn btn-outline-dark w-100" onclick="abrirReserva('Suíte Standard')">Reservar Agora</button>
-                        </div>
-                    </div>
+    <!-- Booking Form -->
+    <div class="container">
+        <div class="booking-form">
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Check-in</label>
+                    <input type="date" class="form-control" id="checkin">
                 </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow border-0">
-                        <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Quarto Luxo">
-                        <div class="card-body">
-                            <div class="badge bg-warning text-dark mb-2">Mais Popular</div>
-                            <h5 class="card-title">Suíte Luxo</h5>
-                            <p class="card-text text-muted">Espaço amplo com varanda privativa e hidromassagem.</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-water text-warning me-2"></i>Vista Mar</li>
-                                <li><i class="fas fa-hot-tub text-warning me-2"></i>Hidromassagem</li>
-                            </ul>
-                            <h4 class="text-primary fw-bold mb-3">R$ 550,00 <span class="fs-6 text-muted">/noite</span></h4>
-                            <button class="btn btn-primary w-100" onclick="abrirReserva('Suíte Luxo')">Reservar Agora</button>
-                        </div>
-                    </div>
+                <div class="col-md-3">
+                    <label class="form-label">Check-out</label>
+                    <input type="date" class="form-control" id="checkout">
                 </div>
-                <div class="col-md-4">
-                    <div class="card h-100 shadow border-0">
-                        <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80" class="card-img-top" alt="Presidencial">
-                        <div class="card-body">
-                            <h5 class="card-title">Cobertura Presidencial</h5>
-                            <p class="card-text text-muted">O auge da exclusividade com piscina privativa e serviço de mordomo.</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-swimming-pool text-warning me-2"></i>Piscina Privada</li>
-                                <li><i class="fas fa-concierge-bell text-warning me-2"></i>Mordomo 24h</li>
-                            </ul>
-                            <h4 class="text-primary fw-bold mb-3">R$ 1.200,00 <span class="fs-6 text-muted">/noite</span></h4>
-                            <button class="btn btn-outline-dark w-100" onclick="abrirReserva('Cobertura Presidencial')">Reservar Agora</button>
-                        </div>
-                    </div>
+                <div class="col-md-2">
+                    <label class="form-label">Hóspedes</label>
+                    <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4+</option>
+                    </select>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="modal fade" id="modalReserva" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title"><i class="fas fa-calendar-check me-2"></i>Fazer Reserva</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="col-md-2">
+                    <label class="form-label">Quartos</label>
+                    <select class="form-control">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4+</option>
+                    </select>
                 </div>
-                <div class="modal-body">
-                    <form id="formReserva">
-                        <div class="mb-3">
-                            <label class="form-label">Nome Completo</label>
-                            <input type="text" class="form-control" required placeholder="Seu nome">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">E-mail</label>
-                            <input type="email" class="form-control" required placeholder="seu@email.com">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Tipo de Quarto</label>
-                            <select class="form-select" id="selectQuarto">
-                                <option value="Suíte Standard">Suíte Standard</option>
-                                <option value="Suíte Luxo">Suíte Luxo</option>
-                                <option value="Cobertura Presidencial">Cobertura Presidencial</option>
-                            </select>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Check-in</label>
-                                <input type="date" class="form-control" required>
-                            </div>
-                            <div class="col-6 mb-3">
-                                <label class="form-label">Check-out</label>
-                                <input type="date" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-success btn-lg">Confirmar Reserva</button>
-                        </div>
-                    </form>
+                <div class="col-md-2">
+                    <label class="form-label">&nbsp;</label>
+                    <button class="btn btn-reserve w-100">Buscar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="bg-dark text-white py-4 mt-auto">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2023 Hotel Paraíso Real. Todos os direitos reservados.</p>
+    <!-- Rooms Section -->
+    <section id="rooms" class="py-5 mt-5">
+        <div class="container">
+            <div class="section-title">
+                <h2>Nossos Quartos</h2>
+                <p>Acomodações de Primeira Classe</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="room-card card">
+                        <div class="room-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                            <div class="room-price">€250/noite</div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Quarto Deluxe</h3>
+                            <p class="card-text">Elegância e conforto em perfeita harmonia. Vista panorâmica da cidade.</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> 35m² de espaço</li>
+                                <li><i class="fas fa-check text-success"></i> Wi-Fi de alta velocidade</li>
+                                <li><i class="fas fa-check text-success"></i> Banheira de hidromassagem</li>
+                                <li><i class="fas fa-check text-success"></i> Mini bar premium</li>
+                            </ul>
+                            <button class="btn btn-reserve w-100">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="room-card card">
+                        <div class="room-image" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                            <div class="room-price">€450/noite</div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Suíte Executive</h3>
+                            <p class="card-text">Luxo e sofisticação para uma experiência memorável.</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> 60m² de espaço</li>
+                                <li><i class="fas fa-check text-success"></i> Sala de estar privativa</li>
+                                <li><i class="fas fa-check text-success"></i> Varanda exclusiva</li>
+                                <li><i class="fas fa-check text-success"></i> Serviço de mordomo</li>
+                            </ul>
+                            <button class="btn btn-reserve w-100">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="room-card card">
+                        <div class="room-image" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);">
+                            <div class="room-price">€800/noite</div>
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title">Suíte Presidential</h3>
+                            <p class="card-text">O ápice do luxo e exclusividade. Para os mais exigentes.</p>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check text-success"></i> 120m² de espaço</li>
+                                <li><i class="fas fa-check text-success"></i> Piano de cauda</li>
+                                <li><i class="fas fa-check text-success"></i> Jacuzzi privativa</li>
+                                <li><i class="fas fa-check text-success"></i> Chef pessoal disponível</li>
+                            </ul>
+                            <button class="btn btn-reserve w-100">Reservar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-5 bg-light">
+        <div class="container">
+            <div class="section-title">
+                <h2>Serviços & Comodidades</h2>
+                <p>Tudo para tornar sua estadia inesquecível</p>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-utensils"></i></div>
+                        <h4>Restaurante Gourmet</h4>
+                        <p>Culinária internacional com chef estrelado Michelin</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-spa"></i></div>
+                        <h4>Spa & Wellness</h4>
+                        <p>Tratamentos relaxantes e revigorantes</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-swimming-pool"></i></div>
+                        <h4>Piscina Infinita</h4>
+                        <p>Vista panorâmica no rooftop</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-dumbbell"></i></div>
+                        <h4>Fitness Center</h4>
+                        <p>Academia 24h com personal trainer</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-cocktail"></i></div>
+                        <h4>Bar Lounge</h4>
+                        <p>Drinks exclusivos e ambiente sofisticado</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-concierge-bell"></i></div>
+                        <h4>Concierge 24h</h4>
+                        <p>Atendimento personalizado a qualquer hora</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-car"></i></div>
+                        <h4>Valet Parking</h4>
+                        <p>Estacionamento com manobrista</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="service-card">
+                        <div class="service-icon"><i class="fas fa-briefcase"></i></div>
+                        <h4>Business Center</h4>
+                        <p>Salas de reunião e conferências</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-5">
+        <div class="container">
+            <div class="section-title">
+                <h2>Galeria</h2>
+                <p>Explore nosso hotel de luxo</p>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);"></div>
+                </div>
+                <div class="col-md-4">
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);"></div>
+                </div>
+                <div class="col-md-6">
+                    <div class="gallery-item" style="background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="section-title">
+                <h2>Entre em Contato</h2>
+                <p>Estamos aqui para ajudá-lo</p>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" class="form-control" placeholder="Seu Nome">
+                        </div>
+                        <div class="mb-3">
+                            <input type="email" class="form-control" placeholder="Seu Email">
+                        </div>
+                        <div class="mb-3">
+                            <input type="tel" class="form-control" placeholder="Telefone">
+                        </div>
+                        <div class="mb-3">
+                            <textarea class="form-control" rows="5" placeholder="Sua Mensagem"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-reserve w-100">Enviar Mensagem</button>
+                    </form>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-4">
+                        <h4><i class="fas fa-map-marker-alt text-warning"></i> Endereço</h4>
+                        <p>Avenida dos Campos Elísios, 1000<br>1000-001 Lisboa, Portugal</p>
+                        
+                        <h4 class="mt-4"><i class="fas fa-phone text-warning"></i> Telefone</h4>
+                        <p>+351 21 123 4567</p>
+                        
+                        <h4 class="mt-4"><i class="fas fa-envelope text-warning"></i> Email</h4>
+                        <p>reservas@grandelysee.com</p>
+                        
+                        <h4 class="mt-4"><i class="fas fa-clock text-warning"></i> Horário de Atendimento</h4>
+                        <p>24 horas por dia, 7 dias por semana</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h4 class="mb-4"><i class="fas fa-gem"></i> GRAND ÉLYSÉE</h4>
+                    <p>Experiência de luxo incomparável no coração de Lisboa. Onde cada detalhe importa e cada momento é especial.</p>
+                    <div class="social-icons mt-4">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <h5 class="mb-4">Links Rápidos</h5>
+                    <div class="footer-links">
+                        <a href="#home">Início</a>
+                        <a href="#rooms">Quartos</a>
+                        <a href="#services">Serviços</a>
+                        <a href="#gallery">Galeria</a>
+                        <a href="#contact">Contato</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="mb-4">Serviços</h5>
+                    <div class="footer-links">
+                        <a href="#">Restaurante</a>
+                        <a href="#">Spa & Wellness</a>
+                        <a href="#">Piscina</a>
+                        <a href="#">Fitness</a>
+                        <a href="#">Business Center</a>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h5 class="mb-4">Newsletter</h5>
+                    <p>Receba ofertas exclusivas e novidades</p>
+                    <div class="input-group">
+                        <input type="email" class="form-control" placeholder="Seu email">
+                        <button class="btn btn-reserve">Enviar</button>
+                    </div>
+                </div>
+            </div>
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            <div class="text-center">
+                <p>&copy; 2026 Grand Élysée Hotel. Todos os direitos reservados.</p>
+            </div>
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        });
+
+        // Form validation for booking dates
+        const checkinInput = document.getElementById('checkin');
+        const checkoutInput = document.getElementById('checkout');
+        
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        checkinInput.min = today;
+        
+        checkinInput.addEventListener('change', function() {
+            const checkinDate = new Date(this.value);
+            const nextDay = new Date(checkinDate);
+            nextDay.setDate(nextDay.getDate() + 1);
+            checkoutInput.min = nextDay.toISOString().split('T')[0];
+            
+            if (checkoutInput.value && new Date(checkoutInput.value) < nextDay) {
+                checkoutInput.value = '';
+            }
+        });
+
+        // Booking form submission
+        document.querySelectorAll('.btn-reserve').forEach(button => {
+            if (!button.closest('.booking-form') && !button.closest('form')) {
+                button.addEventListener('click', function() {
+                    const modalHtml = `
+                        <div class="modal fade" id="bookingModal" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Reserva</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Redirecionando para nosso sistema de reservas...</p>
+                                        <div class="text-center">
+                                            <div class="spinner-border text-warning" role="status">
+                                                <span class="visually-hidden">Carregando...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add modal to body
+                    document.body.insertAdjacentHTML('beforeend', modalHtml);
+                    
+                    const modal = new bootstrap.Modal(document.getElementById('bookingModal'));
+                    modal.show();
+                    
+                    // Simulate booking process
+                    setTimeout(() => {
+                        modal.hide();
+                        document.getElementById('bookingModal').remove();
+                        alert('Sistema de reservas em manutenção. Por favor, entre em contato pelo telefone: +351 21 123 4567');
+                    }, 2000);
+                });
+            }
+        });
+
+        // Gallery lightbox effect
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const colors = [
+                    'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                    'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                    'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                    'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+                    'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'
+                ];
+                
+                const lightboxHtml = `
+                    <div class="modal fade" id="galleryModal" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Galeria do Hotel</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <div class="gallery-modal-image" style="
+                                        height: 400px;
+                                        background: ${this.style.background};
+                                        border-radius: 10px;
+                                        margin-bottom: 20px;
+                                    "></div>
+                                    <p>Instalações do Grand Élysée Hotel</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.insertAdjacentHTML('beforeend', lightboxHtml);
+                const modal = new bootstrap.Modal(document.getElementById('galleryModal'));
+                modal.show();
+                
+                // Remove modal on close
+                document.getElementById('galleryModal').addEventListener('hidden.bs.modal', function() {
+                    this.remove();
+                });
+            });
+        });
+
+        // Newsletter form
+        document.querySelector('footer .btn-reserve').addEventListener('click', function(e) {
+            e.preventDefault();
+            const emailInput = this.parentElement.querySelector('input');
+            
+            if (emailInput.value && emailInput.value.includes('@')) {
+                emailInput.value = '';
+                this.innerHTML = '<i class="fas fa-check"></i> Inscrito!';
+                this.classList.add('bg-success');
+                this.classList.remove('btn-reserve');
+                
+                setTimeout(() => {
+                    this.innerHTML = 'Enviar';
+                    this.classList.remove('bg-success');
+                    this.classList.add('btn-reserve');
+                }, 3000);
+            } else {
+                alert('Por favor, insira um email válido.');
+            }
+        });
+
+        // Contact form submission
+        document.querySelector('#contact form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                submitBtn.innerHTML = '<i class="fas fa-check"></i> Enviado!';
+                submitBtn.classList.add('bg-success');
+                
+                setTimeout(() => {
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.classList.remove('bg-success');
+                    submitBtn.disabled = false;
+                    this.reset();
+                }, 2000);
+            }, 1500);
+        });
+
+        // Room card booking buttons
+        document.querySelectorAll('.room-card .btn-reserve').forEach(button => {
+            button.addEventListener('click', function() {
+                const roomName = this.closest('.room-card').querySelector('.card-title').textContent;
+                const roomPrice = this.closest('.room-card').querySelector('.room-price').textContent;
+                
+                alert(`Você selecionou: ${roomName}\n${roomPrice}\n\nEm breve você será redirecionado para a página de reserva.`);
+            });
+        });
+
+        // Animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Initialize dates
+        window.addEventListener('DOMContentLoaded', () => {
+            // Set checkin to tomorrow
+            const tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            checkinInput.value = tomorrow.toISOString().split('T')[0];
+            
+            // Set checkout to day after tomorrow
+            const dayAfterTomorrow = new Date(tomorrow);
+            dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
+            checkoutInput.value = dayAfterTomorrow.toISOString().split('T')[0];
+            
+            checkoutInput.min = dayAfterTomorrow.toISOString().split('T')[0];
+        });
+    </script>
 </body>
 </html>
