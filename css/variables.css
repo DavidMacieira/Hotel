@@ -1,0 +1,14 @@
+:root {
+    --primary-gold: #d4af37;
+    --dark-blue: #1a2332;
+    --light-gold: #f4e4c1;
+    --text-dark: #2c3e50;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --medium-gray: #e0e0e0;
+    --dark-gray: #495057;
+    --shadow: 0 5px 25px rgba(0,0,0,0.1);
+    --shadow-hover: 0 15px 40px rgba(0,0,0,0.2);
+    --border-radius: 15px;
+    --transition: all 0.3s ease;
+}
