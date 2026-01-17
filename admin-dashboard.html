@@ -3,923 +3,536 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard - DWM Hotel Hotel</title>
+    <title>DWM Hotel - Painel Administrativo</title>
+    
+    <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- CSS Personalizado -->
+    <link rel="stylesheet" href="./css/style.css">
     <style>
-        :root {
-            --primary-gold: #d4af37;
-            --dark-blue: #1a2332;
-            --light-gold: #f4e4c1;
-            --light-gray: #f8f9fa;
+        .dashboard-container {
+            margin-top: 100px;
+            min-height: calc(100vh - 200px);
         }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        
+        .stat-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            height: 100%;
         }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
-
-        /* Sidebar */
+        
+        .stat-icon {
+            font-size: 2.5rem;
+            color: var(--primary-gold);
+            margin-bottom: 1rem;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark-blue);
+        }
+        
+        .stat-label {
+            color: var(--dark-gray);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         .sidebar {
             background: var(--dark-blue);
             color: white;
-            height: 100vh;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 1rem;
             position: fixed;
-            left: 0;
-            top: 0;
             width: 250px;
-            padding: 0;
-            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
-            z-index: 1000;
         }
-
-        .sidebar-brand {
-            padding: 1.5rem;
-            background: rgba(0,0,0,0.2);
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .sidebar-brand h3 {
-            color: var(--primary-gold);
-            margin: 0;
-            font-size: 1.5rem;
-        }
-
-        .sidebar-brand small {
-            color: var(--light-gold);
-            font-size: 0.8rem;
-        }
-
-        .user-info {
-            padding: 1.5rem;
-            text-align: center;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .user-avatar {
-            width: 80px;
-            height: 80px;
-            background: var(--primary-gold);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            color: var(--dark-blue);
-        }
-
-        .sidebar-menu {
-            padding: 1rem 0;
-        }
-
-        .nav-item {
-            margin: 0.2rem 1rem;
-        }
-
-        .nav-link {
-            color: rgba(255,255,255,0.8);
-            padding: 0.8rem 1rem;
-            border-radius: 8px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-        }
-
-        .nav-link:hover, .nav-link.active {
-            background: rgba(212, 175, 55, 0.2);
+        
+        .sidebar a {
             color: white;
+            text-decoration: none;
+            display: block;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            transition: all 0.3s ease;
         }
-
-        .nav-link i {
-            width: 25px;
-            margin-right: 10px;
+        
+        .sidebar a:hover, .sidebar a.active {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--primary-gold);
         }
-
-        .logout-btn {
-            position: absolute;
-            bottom: 1rem;
-            left: 1rem;
-            right: 1rem;
-        }
-
-        /* Main Content */
+        
         .main-content {
             margin-left: 250px;
-            padding: 1rem;
+            padding: 2rem;
         }
-
-        .header {
-            background: white;
-            padding: 1rem;
-            border-radius: 10px;
-            margin-bottom: 1rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .header h1 {
-            font-size: 1.5rem;
-            color: var(--dark-blue);
-            margin: 0;
-        }
-
-        .header-actions {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .stats-cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            display: flex;
-            align-items: center;
-            transition: transform 0.3s;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: var(--light-gold);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 1rem;
-            color: var(--primary-gold);
-            font-size: 1.5rem;
-        }
-
-        .stat-info h3 {
-            font-size: 1.8rem;
-            margin: 0;
-            color: var(--dark-blue);
-        }
-
-        .stat-info p {
-            color: #666;
-            margin: 0;
-        }
-
-        .card {
-            border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 1rem;
-        }
-
-        .card-header {
-            background: white;
-            border-bottom: 1px solid #eee;
-            font-weight: 600;
-            color: var(--dark-blue);
-        }
-
-        .table th {
-            border-top: none;
-            color: var(--dark-blue);
-            font-weight: 600;
-        }
-
-        .badge {
-            padding: 0.4em 0.8em;
-            font-weight: 500;
-        }
-
-        .btn-admin {
-            background: var(--primary-gold);
-            color: var(--dark-blue);
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-admin:hover {
-            background: #c19b2e;
-            transform: translateY(-2px);
-        }
-
-        .btn-outline-admin {
-            border: 2px solid var(--primary-gold);
-            color: var(--primary-gold);
-            background: transparent;
-            padding: 0.5rem 1.5rem;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn-outline-admin:hover {
-            background: var(--primary-gold);
-            color: var(--dark-blue);
-        }
-
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-        }
-
-        .form-control:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
+        
         .chart-container {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            margin-bottom: 2rem;
+            position: relative;
+            height: 300px;
+            margin: 20px 0;
         }
-
-        @media (max-width: 768px) {
+        
+        .occupancy-chart {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+        
+        .month-column {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .month-name {
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+            color: var(--dark-gray);
+        }
+        
+        .day-dots {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 2px;
+        }
+        
+        .day-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+        }
+        
+        .day-dot.reserved {
+            background-color: var(--primary-gold);
+        }
+        
+        .day-dot.booked {
+            background-color: #28a745;
+        }
+        
+        .day-dot.cancelled {
+            background-color: #dc3545;
+        }
+        
+        @media (max-width: 992px) {
             .sidebar {
+                position: static;
                 width: 100%;
-                height: auto;
-                position: relative;
+                min-height: auto;
             }
             
             .main-content {
                 margin-left: 0;
             }
-            
-            .stats-cards {
-                grid-template-columns: 1fr;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Sidebar -->
-    <nav class="sidebar">
-        <div class="sidebar-brand">
-            <h3><i class="fas fa-gem"></i> DWM Hotel</h3>
-            <small>Painel Administrativo</small>
-        </div>
-        
-        <div class="user-info">
-            <div class="user-avatar">
-                <i class="fas fa-user-shield"></i>
-            </div>
-            <h5 id="adminName">Administrador</h5>
-            <p class="text-muted"><i class="fas fa-circle text-success"></i> Online</p>
-        </div>
-        
-        <div class="sidebar-menu">
-            <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link active" href="#">
-                        <i class="fas fa-tachometer-alt"></i> Dashboard
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#reservations">
-                        <i class="fas fa-calendar-check"></i> Reservas
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#rooms">
-                        <i class="fas fa-bed"></i> Quartos
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#guests">
-                        <i class="fas fa-users"></i> Hóspedes
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#services">
-                        <i class="fas fa-concierge-bell"></i> Serviços
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#staff">
-                        <i class="fas fa-user-tie"></i> Funcionários
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#reports">
-                        <i class="fas fa-chart-bar"></i> Relatórios
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#settings">
-                        <i class="fas fa-cog"></i> Configurações
-                    </a>
-                </li>
-            </ul>
-            
-            <div class="logout-btn">
-                <button class="btn btn-admin w-100" id="logoutBtn">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><i class="fas fa-gem"></i> DWM Hotel</a>
+            <div class="navbar-nav ms-auto align-items-center">
+                <span class="nav-link me-3">Administrador</span>
+                <button class="btn btn-outline-warning btn-sm" id="logoutBtn">
                     <i class="fas fa-sign-out-alt"></i> Sair
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <div class="main-content">
-        <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-tachometer-alt"></i> Dashboard Administrativo</h1>
-            <div class="header-actions">
-                <span id="currentDate"></span>
-                <button class="btn btn-admin" data-bs-toggle="modal" data-bs-target="#addReservationModal">
-                    <i class="fas fa-plus"></i> Nova Reserva
-                </button>
-            </div>
-        </div>
-
-        <!-- Stats Cards -->
-        <div class="stats-cards">
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-bed"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="totalRooms">48</h3>
-                    <p>Quartos Ocupados</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-users"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="totalGuests">156</h3>
-                    <p>Hóspedes Ativos</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
-                <div class="stat-info">
-                    <h3 id="todayCheckins">12</h3>
-                    <p>Check-ins Hoje</p>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">
-                    <i class="fas fa-euro-sign"></i>
-                </div>
-                <div class="stat-info">
-                    <h3>€45,620</h3>
-                    <p>Receita do Mês</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts Row -->
+    <div class="container-fluid">
         <div class="row">
-            <div class="col-md-8">
-                <div class="chart-container">
-                    <h5>Ocupação do Hotel</h5>
-                    <canvas id="occupancyChart" height="200"></canvas>
+            <!-- Sidebar -->
+            <div class="col-lg-2 col-md-3 sidebar">
+                <div class="text-center mb-4">
+                    <h4><i class="fas fa-user-shield"></i> Admin</h4>
                 </div>
+                <nav class="nav flex-column">
+                    <a href="#" class="active" id="dashboardLink">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="#" id="bookingsLink">
+                        <i class="fas fa-calendar-alt"></i> Todas as Reservas
+                    </a>
+                    <a href="#" id="roomsLink">
+                        <i class="fas fa-bed"></i> Gestão de Quartos
+                    </a>
+                    <a href="#" id="reportsLink">
+                        <i class="fas fa-chart-line"></i> Relatórios
+                    </a>
+                    <a href="#" id="occupancyLink">
+                        <i class="fas fa-calendar-check"></i> Ocupação
+                    </a>
+                    <a href="index.html">
+                        <i class="fas fa-hotel"></i> Voltar ao Site
+                    </a>
+                </nav>
             </div>
-            <div class="col-md-4">
-                <div class="chart-container">
-                    <h5>Tipo de Quartos</h5>
-                    <canvas id="roomTypeChart" height="200"></canvas>
-                </div>
-            </div>
-        </div>
 
-        <!-- Recent Reservations -->
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Reservas Recentes</h5>
-                <button class="btn btn-outline-admin btn-sm" id="refreshReservations">
-                    <i class="fas fa-sync-alt"></i> Atualizar
-                </button>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Código</th>
-                                <th>Hóspede</th>
-                                <th>Quarto</th>
-                                <th>Check-in</th>
-                                <th>Check-out</th>
-                                <th>Valor</th>
-                                <th>Status</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="reservationsTable">
-                            <!-- Reservations will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+            <!-- Main Content -->
+            <div class="col-lg-10 col-md-9 main-content">
+                <!-- Dashboard Section -->
+                <div id="dashboardSection">
+                    <h2 class="mb-4">Dashboard Administrativo</h2>
+                    
+                    <!-- Stats Cards -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <div class="stat-number" id="totalBookings">0</div>
+                                <div class="stat-label">Reservas Ativas</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-bed"></i>
+                                </div>
+                                <div class="stat-number" id="availableRooms">6</div>
+                                <div class="stat-label">Quartos Disponíveis</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-euro-sign"></i>
+                                </div>
+                                <div class="stat-number" id="monthRevenue">€0</div>
+                                <div class="stat-label">Receita do Mês</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="stat-card">
+                                <div class="stat-icon">
+                                    <i class="fas fa-percentage"></i>
+                                </div>
+                                <div class="stat-number" id="occupancyRate">0%</div>
+                                <div class="stat-label">Taxa de Ocupação</div>
+                            </div>
+                        </div>
+                    </div>
 
-        <!-- Recent Guests -->
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Hóspedes Recentes</h5>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Nome</th>
-                                <th>Email</th>
-                                <th>Telefone</th>
-                                <th>País</th>
-                                <th>Última Estadia</th>
-                                <th>Total Gastos</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody id="guestsTable">
-                            <!-- Guests will be populated by JavaScript -->
-                        </tbody>
-                    </table>
+                    <!-- Gráfico de Receita Mensal -->
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-dark-blue text-white">
+                                    <h5 class="mb-0"><i class="fas fa-chart-line"></i> Receita Mensal 2025</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="revenueChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Últimas Reservas -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-dark-blue text-white">
+                                    <h5 class="mb-0"><i class="fas fa-history"></i> Últimas Reservas</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Quarto</th>
+                                                    <th>Hóspede</th>
+                                                    <th>Check-in</th>
+                                                    <th>Check-out</th>
+                                                    <th>Total</th>
+                                                    <th>Status</th>
+                                                    <th>Ações</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="recentBookingsTable">
+                                                <!-- Últimas reservas serão carregadas aqui -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Todas as Reservas Section (hidden by default) -->
+                <div id="bookingsSection" style="display: none;">
+                    <h2 class="mb-4">Gestão de Reservas</h2>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select class="form-control" id="filterStatus">
+                                <option value="">Todos os Status</option>
+                                <option value="confirmed">Confirmadas</option>
+                                <option value="cancelled">Canceladas</option>
+                                <option value="completed">Concluídas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="month" class="form-control" id="filterMonth" min="2025-01" max="2025-12">
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-reserve" id="exportBookingsBtn">
+                                <i class="fas fa-download"></i> Exportar Dados
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Quarto</th>
+                                    <th>Hóspede</th>
+                                    <th>Check-in</th>
+                                    <th>Check-out</th>
+                                    <th>Noites</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allBookingsTable">
+                                <!-- Todas as reservas serão carregadas aqui -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Gestão de Quartos Section (hidden by default) -->
+                <div id="roomsSection" style="display: none;">
+                    <h2 class="mb-4">Gestão de Quartos</h2>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <button class="btn btn-reserve" id="addRoomBtn">
+                                <i class="fas fa-plus"></i> Adicionar Novo Quarto
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="roomsGrid">
+                        <!-- Quartos serão carregados aqui -->
+                    </div>
+                </div>
+
+                <!-- Relatórios Section (hidden by default) -->
+                <div id="reportsSection" style="display: none;">
+                    <h2 class="mb-4">Relatórios Financeiros 2025</h2>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-dark-blue text-white">
+                                    <h5 class="mb-0"><i class="fas fa-chart-pie"></i> Receita por Tipo de Quarto</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-container">
+                                        <canvas id="revenueByRoomChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header bg-dark-blue text-white">
+                                    <h5 class="mb-0"><i class="fas fa-calendar"></i> Estatísticas Anuais</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row text-center">
+                                        <div class="col-6 mb-3">
+                                            <h3 id="yearRevenue">€0</h3>
+                                            <p class="text-muted">Receita Total</p>
+                                        </div>
+                                        <div class="col-6 mb-3">
+                                            <h3 id="yearBookings">0</h3>
+                                            <p class="text-muted">Reservas Totais</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h3 id="yearNights">0</h3>
+                                            <p class="text-muted">Noites Vendidas</p>
+                                        </div>
+                                        <div class="col-6">
+                                            <h3 id="yearAvgRate">€0</h3>
+                                            <p class="text-muted">Taxa Média/Noite</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header bg-dark-blue text-white">
+                                    <h5 class="mb-0"><i class="fas fa-table"></i> Detalhamento Mensal</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="table-dark">
+                                                <tr>
+                                                    <th>Mês</th>
+                                                    <th>Receita</th>
+                                                    <th>Reservas</th>
+                                                    <th>Noites</th>
+                                                    <th>Taxa Média/Noite</th>
+                                                    <th>Taxa de Ocupação</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="monthlyStatsTable">
+                                                <!-- Estatísticas mensais serão carregadas aqui -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ocupação Section (hidden by default) -->
+                <div id="occupancySection" style="display: none;">
+                    <h2 class="mb-4">Calendário de Ocupação 2025</h2>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select class="form-control" id="roomSelect">
+                                <option value="all">Todos os Quartos</option>
+                                <!-- Opções serão preenchidas por JavaScript -->
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="d-flex gap-2">
+                                <div class="d-flex align-items-center">
+                                    <div class="day-dot reserved me-2"></div>
+                                    <small>Reservado</small>
+                                </div>
+                                <div class="d-flex align-items-center ms-3">
+                                    <div class="day-dot booked me-2"></div>
+                                    <small>Ocupado</small>
+                                </div>
+                                <div class="d-flex align-items-center ms-3">
+                                    <div class="day-dot cancelled me-2"></div>
+                                    <small>Cancelado</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="occupancy-chart" id="occupancyChart">
+                                <!-- Gráfico de ocupação será gerado aqui -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Add Reservation Modal -->
-    <div class="modal fade" id="addReservationModal" tabindex="-1">
+    <!-- Room Management Modal -->
+    <div class="modal fade" id="roomModal" tabindex="-1">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Nova Reserva</h5>
+                    <h5 class="modal-title" id="roomModalTitle">Gerenciar Quarto</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="newReservationForm">
+                    <form id="roomForm">
+                        <input type="hidden" id="roomId">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Nome do Hóspede</label>
-                                    <input type="text" class="form-control" required>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome do Quarto</label>
+                                <input type="text" class="form-control" id="roomName" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" required>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tipo</label>
+                                <select class="form-control" id="roomType" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Suite">Suíte</option>
+                                    <option value="Vista Mar">Vista Mar</option>
+                                    <option value="Presidential">Presidencial</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Check-in</label>
-                                    <input type="date" class="form-control" required>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Preço por Noite (€)</label>
+                                <input type="number" class="form-control" id="roomPrice" min="50" max="2000" step="10" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Check-out</label>
-                                    <input type="date" class="form-control" required>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Máximo de Hóspedes</label>
+                                <select class="form-control" id="roomMaxGuests" required>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Tipo de Quarto</label>
-                                    <select class="form-control" required>
-                                        <option value="">Selecione...</option>
-                                        <option value="deluxe">Quarto Deluxe</option>
-                                        <option value="executive">Suíte Executive</option>
-                                        <option value="presidential">Suíte Presidential</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Tamanho (m²)</label>
+                                <input type="text" class="form-control" id="roomSize" placeholder="ex: 35m²" required>
                             </div>
-                            <div class="col-md-6">
-                                <div class="mb-3">
-                                    <label class="form-label">Número de Hóspedes</label>
-                                    <select class="form-control" required>
-                                        <option>1</option>
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4+</option>
-                                    </select>
-                                </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Imagem URL</label>
+                                <input type="text" class="form-control" id="roomImage" placeholder="ex: img/rooms/quarto1.jpg">
                             </div>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label">Observações</label>
-                            <textarea class="form-control" rows="3"></textarea>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Comodidades (uma por linha)</label>
+                                <textarea class="form-control" id="roomAmenities" rows="4" placeholder="Wi-Fi alta velocidade&#10;Banheira hidromassagem&#10;Mini bar premium"></textarea>
+                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-admin" id="saveReservation">Salvar Reserva</button>
+                    <button type="button" class="btn btn-reserve" id="saveRoomBtn">Salvar Quarto</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Scripts -->
+    <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        // Check if admin is logged in
-        document.addEventListener('DOMContentLoaded', function() {
-            const loggedInUser = localStorage.getItem('loggedInUser');
-            
-            if (!loggedInUser) {
-                window.location.href = 'login.html';
-                return;
-            }
-            
-            const user = JSON.parse(loggedInUser);
-            if (user.type !== 'admin') {
-                window.location.href = 'client-dashboard.html';
-                return;
-            }
-            
-            // Display admin name
-            document.getElementById('adminName').textContent = user.name;
-            
-            // Set current date
-            const now = new Date();
-            document.getElementById('currentDate').textContent = 
-                now.toLocaleDateString('pt-BR', { 
-                    weekday: 'long', 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                });
-            
-            // Initialize charts
-            initializeCharts();
-            
-            // Load initial data
-            loadReservations();
-            loadGuests();
-            
-            // Set up event listeners
-            setupEventListeners();
-        });
-
-        function initializeCharts() {
-            // Occupancy Chart
-            const occupancyCtx = document.getElementById('occupancyChart').getContext('2d');
-            new Chart(occupancyCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                    datasets: [{
-                        label: 'Taxa de Ocupação (%)',
-                        data: [65, 72, 78, 85, 92, 95, 98, 96, 88, 82, 75, 68],
-                        borderColor: '#d4af37',
-                        backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                        tension: 0.3,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: true
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + '%';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Room Type Chart
-            const roomTypeCtx = document.getElementById('roomTypeChart').getContext('2d');
-            new Chart(roomTypeCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Deluxe', 'Executive', 'Presidential'],
-                    datasets: [{
-                        data: [60, 30, 10],
-                        backgroundColor: [
-                            '#d4af37',
-                            '#1a2332',
-                            '#f4e4c1'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
-        }
-
-        function loadReservations() {
-            const reservations = [
-                {
-                    code: 'RES-2024-001',
-                    guest: 'Maria Silva',
-                    room: 'Deluxe 301',
-                    checkin: '2024-01-15',
-                    checkout: '2024-01-20',
-                    amount: '€1,250',
-                    status: 'confirmada'
-                },
-                {
-                    code: 'RES-2024-002',
-                    guest: 'João Santos',
-                    room: 'Executive 402',
-                    checkin: '2024-01-16',
-                    checkout: '2024-01-22',
-                    amount: '€2,700',
-                    status: 'pendente'
-                },
-                {
-                    code: 'RES-2024-003',
-                    guest: 'Ana Costa',
-                    room: 'Presidential 501',
-                    checkin: '2024-01-18',
-                    checkout: '2024-01-25',
-                    amount: '€5,600',
-                    status: 'confirmada'
-                },
-                {
-                    code: 'RES-2024-004',
-                    guest: 'Pedro Almeida',
-                    room: 'Deluxe 302',
-                    checkin: '2024-01-19',
-                    checkout: '2024-01-21',
-                    amount: '€750',
-                    status: 'cancelada'
-                },
-                {
-                    code: 'RES-2024-005',
-                    guest: 'Carlos Oliveira',
-                    room: 'Executive 403',
-                    checkin: '2024-01-20',
-                    checkout: '2024-01-27',
-                    amount: '€3,150',
-                    status: 'confirmada'
-                }
-            ];
-
-            const tableBody = document.getElementById('reservationsTable');
-            tableBody.innerHTML = '';
-
-            reservations.forEach(reservation => {
-                let statusClass = 'secondary';
-                if (reservation.status === 'confirmada') statusClass = 'success';
-                if (reservation.status === 'pendente') statusClass = 'warning';
-                if (reservation.status === 'cancelada') statusClass = 'danger';
-
-                const row = `
-                    <tr>
-                        <td>${reservation.code}</td>
-                        <td>${reservation.guest}</td>
-                        <td>${reservation.room}</td>
-                        <td>${reservation.checkin}</td>
-                        <td>${reservation.checkout}</td>
-                        <td><strong>${reservation.amount}</strong></td>
-                        <td>
-                            <span class="badge bg-${statusClass}">
-                                ${reservation.status.toUpperCase()}
-                            </span>
-                        </td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-admin me-1">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-sm btn-outline-admin">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        function loadGuests() {
-            const guests = [
-                {
-                    name: 'Maria Silva',
-                    email: 'maria@exemplo.com',
-                    phone: '+55 11 99999-9999',
-                    country: 'Brasil',
-                    lastStay: '2024-01-10',
-                    totalSpent: '€8,450',
-                    status: 'ativo'
-                },
-                {
-                    name: 'João Santos',
-                    email: 'joao@exemplo.com',
-                    phone: '+351 91 123 4567',
-                    country: 'Portugal',
-                    lastStay: '2024-01-12',
-                    totalSpent: '€12,300',
-                    status: 'ativo'
-                },
-                {
-                    name: 'Ana Costa',
-                    email: 'ana@exemplo.com',
-                    phone: '+55 21 98888-8888',
-                    country: 'Brasil',
-                    lastStay: '2024-01-15',
-                    totalSpent: '€25,800',
-                    status: 'vip'
-                },
-                {
-                    name: 'Pedro Almeida',
-                    email: 'pedro@exemplo.com',
-                    phone: '+351 96 987 6543',
-                    country: 'Portugal',
-                    lastStay: '2024-01-05',
-                    totalSpent: '€3,200',
-                    status: 'ativo'
-                },
-                {
-                    name: 'Carlos Oliveira',
-                    email: 'carlos@exemplo.com',
-                    phone: '+55 31 97777-7777',
-                    country: 'Brasil',
-                    lastStay: '2024-01-18',
-                    totalSpent: '€15,600',
-                    status: 'vip'
-                }
-            ];
-
-            const tableBody = document.getElementById('guestsTable');
-            tableBody.innerHTML = '';
-
-            guests.forEach(guest => {
-                let statusClass = 'primary';
-                if (guest.status === 'ativo') statusClass = 'success';
-                if (guest.status === 'vip') statusClass = 'warning';
-
-                const row = `
-                    <tr>
-                        <td>${guest.name}</td>
-                        <td>${guest.email}</td>
-                        <td>${guest.phone}</td>
-                        <td>${guest.country}</td>
-                        <td>${guest.lastStay}</td>
-                        <td><strong>${guest.totalSpent}</strong></td>
-                        <td>
-                            <span class="badge bg-${statusClass}">
-                                ${guest.status.toUpperCase()}
-                            </span>
-                        </td>
-                    </tr>
-                `;
-                tableBody.innerHTML += row;
-            });
-        }
-
-        function setupEventListeners() {
-            // Logout button
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('loggedInUser');
-                window.location.href = 'login.html';
-            });
-
-            // Refresh reservations
-            document.getElementById('refreshReservations').addEventListener('click', function() {
-                const btn = this;
-                const originalHTML = btn.innerHTML;
-                
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                btn.disabled = true;
-                
-                setTimeout(() => {
-                    loadReservations();
-                    btn.innerHTML = originalHTML;
-                    btn.disabled = false;
-                    
-                    // Show success message
-                    showNotification('Reservas atualizadas com sucesso!', 'success');
-                }, 1000);
-            });
-
-            // Save new reservation
-            document.getElementById('saveReservation').addEventListener('click', function() {
-                const modal = bootstrap.Modal.getInstance(document.getElementById('addReservationModal'));
-                modal.hide();
-                
-                // Show success message
-                showNotification('Reserva criada com sucesso!', 'success');
-                
-                // Refresh the reservations list after a delay
-                setTimeout(() => {
-                    loadReservations();
-                }, 500);
-            });
-
-            // Navigation links
-            document.querySelectorAll('.sidebar-menu .nav-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all links
-                    document.querySelectorAll('.sidebar-menu .nav-link').forEach(l => {
-                        l.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked link
-                    this.classList.add('active');
-                    
-                    // In a real application, this would load different content
-                    showNotification(`Carregando ${this.textContent.trim()}...`, 'info');
-                });
-            });
-        }
-
-        function showNotification(message, type) {
-            // Create notification element
-            const notification = document.createElement('div');
-            notification.className = `alert alert-${type} position-fixed`;
-            notification.style.cssText = `
-                top: 20px;
-                right: 20px;
-                z-index: 9999;
-                min-width: 300px;
-                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            `;
-            notification.innerHTML = `
-                <div class="d-flex align-items-center">
-                    <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'} me-2"></i>
-                    <span>${message}</span>
-                </div>
-            `;
-            
-            // Add to body
-            document.body.appendChild(notification);
-            
-            // Remove after 3 seconds
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
-
-        // Update stats randomly (simulating real-time updates)
-        function updateStats() {
-            const rooms = document.getElementById('totalRooms');
-            const guests = document.getElementById('totalGuests');
-            const checkins = document.getElementById('todayCheckins');
-            
-            // Simulate small random changes
-            const currentRooms = parseInt(rooms.textContent);
-            const currentGuests = parseInt(guests.textContent);
-            const currentCheckins = parseInt(checkins.textContent);
-            
-            rooms.textContent = Math.max(40, Math.min(60, currentRooms + Math.floor(Math.random() * 3) - 1));
-            guests.textContent = Math.max(140, Math.min(180, currentGuests + Math.floor(Math.random() * 5) - 2));
-            checkins.textContent = Math.max(8, Math.min(16, currentCheckins + Math.floor(Math.random() * 2) - 1));
-        }
-
-        // Update stats every 30 seconds
-        setInterval(updateStats, 30000);
-    </script>
+    
+    <!-- JS Personalizado -->
+    <script src="js/data.js"></script>
+    <script src="js/admin-dashboard.js"></script>
 </body>
 </html>
