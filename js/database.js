@@ -1,7 +1,10 @@
 // database.js - Sistema de dados do Hotel DWM 2026
 
-// Banco de dados em memória (simulando um banco de dados real)
-const hotelDB = {
+const hotelDB = {   //criei um objeto, é uma simulação de uma base de dados
+    //tudo o que faz parte do sistema estará aqui dentro
+
+
+
     // Array de quartos do hotel
     quartos: [
         {
@@ -93,31 +96,32 @@ const hotelDB = {
     ],
     
     // Array de usuários do sistema
-    usuarios: [
+    utilizadores: [
         {
             id: 1,
             nome: "Cliente Teste",
             email: "cliente@exemplo.com",
-            senha: "123456",
+            password: "123456",
             tipo: "cliente"
         },
         {
             id: 2,
             nome: "Administrador",
             email: "admin@dwmhotel.com",
-            senha: "admin123",
+            password: "admin123",
             tipo: "admin"
         },
         {
             id: 3,
             nome: "Lucas Moura",
             email: "lucasmoura@gmail.com",
-            senha: "123456",
+            password: "123456",
             tipo: "cliente"
         }
     ],
     
     // Sistema de tarifas para 2026
+    //Aqui tambem fiz calculos automaticos por precos de diferentes epocas do ano
     tarifas: [
         { tipo: "Standard", precoBase: 150, altaTemporada: 180, baixaTemporada: 120 },
         { tipo: "Deluxe", precoBase: 250, altaTemporada: 300, baixaTemporada: 200 },
@@ -125,18 +129,22 @@ const hotelDB = {
         { tipo: "Presidencial", precoBase: 800, altaTemporada: 960, baixaTemporada: 640 }
     ],
     
-    // Meses de alta e baixa temporada em 2026
-    altaTemporada: ["06", "07", "08", "12"], // Junho, Julho, Agosto, Dezembro
-    baixaTemporada: ["01", "02", "03", "11"], // Janeiro, Fevereiro, Março, Novembro
+    // meses definidos por strings
+    altaTemporada: ["06", "07", "08", "12"],
+    baixaTemporada: ["01", "02", "03", "11"], 
     
+
+
+
+
     // ========== FUNÇÕES DO SISTEMA ==========
     
-    // Busca um quarto pelo ID
+    // Busca um quarto pelo ID - procura um quarto especifico, retorna o quarto ou undefined
     buscarQuarto: function(id) {
         return this.quartos.find(quarto => quarto.id === id);
     },
     
-    // Busca reservas por email do cliente
+    // Busca reservas por email do cliente- retorna todas as reservas de um cliente
     buscarReservasCliente: function(email) {
         return this.reservas.filter(reserva => reserva.clienteEmail === email);
     },
@@ -179,7 +187,7 @@ const hotelDB = {
     fazerReserva: function(dados) {
         // Gera um novo ID
         const novoId = this.reservas.length > 0 
-            ? Math.max(...this.reservas.map(r => r.id)) + 1 
+            ? Math.max(...this.reservas.map(r => r.id)) + 1   //gera o id automaticamente, pega o maior id e soma 1  
             : 1;
         
         const novaReserva = {
@@ -202,7 +210,7 @@ const hotelDB = {
         return novaReserva;
     },
     
-    // Cancela uma reserva
+    // Cancela uma reserva - ele nao apaga so mostra como
     cancelarReserva: function(reservaId) {
         const reserva = this.reservas.find(r => r.id === reservaId);
         if (reserva) {
@@ -230,14 +238,14 @@ const hotelDB = {
         
         return {
             mes: mes,
-            mesNome: this.getNomeMes(mes),
+            mesNome: this.getNomeMes(mes), //converte numero do mes para nome por exemplo 1 = janeiro
             receita: receita,
             noites: noites,
             reservas: reservasCount,
             mediaPorNoite: noites > 0 ? Math.round(receita / noites) : 0
         };
     },
-    
+
     // Calcula estatísticas anuais
     calcularEstatisticasAno: function(ano = 2026) {
         let receitaTotal = 0;
@@ -291,14 +299,14 @@ const hotelDB = {
     formatarData: function(dataString) {
         const data = new Date(dataString);
         const opcoes = { day: 'numeric', month: 'long', year: 'numeric' };
-        return data.toLocaleDateString('pt-BR', opcoes);
+        return data.toLocaleDateString('pt', opcoes);
     },
     
     // Formata data curta
     formatarDataCurta: function(dataString) {
         const data = new Date(dataString);
         const opcoes = { day: 'numeric', month: 'short' };
-        return data.toLocaleDateString('pt-BR', opcoes);
+        return data.toLocaleDateString('pt', opcoes);
     },
     
     // Calcula número de noites entre datas
@@ -361,5 +369,5 @@ const hotelDB = {
 // Carrega dados salvos quando o script é executado
 hotelDB.carregarDoLocalStorage();
 
-// Torna o banco de dados disponível globalmente
+// Torna o base de dados disponível globalmente
 window.hotelDB = hotelDB;

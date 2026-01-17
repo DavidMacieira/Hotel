@@ -2,23 +2,27 @@
 
 // ========== VERIFICAÇÃO DE LOGIN ==========
 
-// Verifica se o usuário está logado
-const usuarioLogado = JSON.parse(localStorage.getItem('usuario-logado'));
-if (!usuarioLogado || usuarioLogado.tipo !== 'cliente') {
+//Aqui ele vai ao localStorage buscar os dados do utilizador logado
+const utilizadorLogado = JSON.parse(localStorage.getItem('utilizador-logado'));
+if (!utilizadorLogado || utilizadorLogado.tipo !== 'cliente') {
     window.location.href = 'login.html';
 }
 
-// ========== VARIÁVEIS GLOBAIS ==========
 
 // Dados temporários para nova reserva
 let reservaTemporaria = null;
 
+
+
+
+
 // ========== FUNÇÕES PRINCIPAIS ==========
 
-// Mostra uma seção específica
 function mostrarSecao(idSecao) {
-    // Esconde todas as seções
-    const secoes = ['dashboard', 'minhas-reservas', 'nova-reserva', 'perfil'];
+    
+    const secoes = ['dashboard', 'minhas-reservas', 'nova-reserva', 'perfil']; //lista todas as seções disponíveis
+
+    //esconde todas as seções
     secoes.forEach(secao => {
         document.getElementById(secao).style.display = 'none';
     });
@@ -54,11 +58,11 @@ function mostrarSecao(idSecao) {
 // Carrega o dashboard do cliente
 function carregarDashboardCliente() {
     // Atualiza nome do usuário
-    document.getElementById('nome-usuario').textContent = usuarioLogado.nome;
-    document.getElementById('sidebar-nome').textContent = usuarioLogado.nome;
+    document.getElementById('nome-utilizador').textContent = utilizadorLogado.nome;
+    document.getElementById('sidebar-nome').textContent = utilizadorLogado.nome;
     
     // Busca reservas do cliente
-    const minhasReservas = hotelDB.buscarReservasCliente(usuarioLogado.email);
+    const minhasReservas = hotelDB.buscarReservasCliente(utilizadorLogado.email); 
     const reservasAtivas = minhasReservas.filter(r => r.status === 'confirmada');
     
     // Calcula estatísticas
@@ -78,8 +82,8 @@ function carregarDashboardCliente() {
 
 // Carrega próximas reservas no dashboard
 function carregarProximasReservas() {
-    const minhasReservas = hotelDB.buscarReservasCliente(usuarioLogado.email);
-    const hoje = new Date().toISOString().split('T')[0];
+    const minhasReservas = hotelDB.buscarReservasCliente(utilizadorLogado.email); //vai buscar as reservas do cliente 
+    const hoje = new Date().toISOString().split('T')[0]; //converte a data de hoje para o formato AAAA-MM-DD
     
     // Filtra reservas futuras (confirmadas)
     const proximas = minhasReservas
@@ -136,7 +140,7 @@ function carregarProximasReservas() {
 
 // Carrega todas as reservas do cliente
 function carregarMinhasReservas() {
-    const minhasReservas = hotelDB.buscarReservasCliente(usuarioLogado.email);
+    const minhasReservas = hotelDB.buscarReservasCliente(utilizadorLogado.email);
     
     // Ordena por data mais recente
     minhasReservas.sort((a, b) => new Date(b.checkIn) - new Date(a.checkIn));
@@ -197,7 +201,7 @@ function carregarMinhasReservas() {
 function verDetalhesReserva(reservaId) {
     const reserva = hotelDB.buscarReservaPorId(reservaId);
     
-    if (!reserva || reserva.clienteEmail !== usuarioLogado.email) {
+    if (!reserva || reserva.clienteEmail !== utilizadorLogado.email) {
         alert('Reserva não encontrada!');
         return;
     }
@@ -251,7 +255,7 @@ function verDetalhesReserva(reservaId) {
 function cancelarMinhaReserva(reservaId) {
     const reserva = hotelDB.buscarReservaPorId(reservaId);
     
-    if (!reserva || reserva.clienteEmail !== usuarioLogado.email) {
+    if (!reserva || reserva.clienteEmail !== utilizadorLogado.email) {
         alert('Reserva não encontrada!');
         return;
     }
@@ -487,8 +491,8 @@ function confirmarReserva() {
     const novaReserva = {
         quartoId: reservaTemporaria.quartoId,
         quartoNome: reservaTemporaria.quartoNome,
-        clienteNome: usuarioLogado.nome,
-        clienteEmail: usuarioLogado.email,
+        clienteNome: utilizadorLogado.nome,
+        clienteEmail: utilizadorLogado.email,
         checkIn: reservaTemporaria.checkin,
         checkOut: reservaTemporaria.checkout,
         hospedes: reservaTemporaria.hospedes,
@@ -496,7 +500,7 @@ function confirmarReserva() {
         total: reservaTemporaria.total
     };
     
-    // Adiciona reserva ao banco de dados
+    // Adiciona reserva ao base de dados
     const reservaCriada = hotelDB.fazerReserva(novaReserva);
     
     if (reservaCriada) {
@@ -525,8 +529,8 @@ function confirmarReserva() {
 // Carrega dados do perfil
 function carregarPerfil() {
     // Preenche formulário com dados do usuário
-    document.getElementById('perfil-nome').value = usuarioLogado.nome;
-    document.getElementById('perfil-email').value = usuarioLogado.email;
+    document.getElementById('perfil-nome').value = utilizadorLogado.nome;
+    document.getElementById('perfil-email').value = utilizadorLogado.email;
     
     // Configura envio do formulário
     document.getElementById('form-perfil').addEventListener('submit', function(e) {
@@ -540,7 +544,7 @@ function carregarPerfil() {
 
 // Carrega histórico de estadias
 function carregarHistoricoEstadias() {
-    const minhasReservas = hotelDB.buscarReservasCliente(usuarioLogado.email);
+    const minhasReservas = hotelDB.buscarReservasCliente(utilizadorLogado.email);
     const estadiasConcluidas = minhasReservas.filter(r => r.status === 'confirmada');
     
     const container = document.getElementById('historico-estadias');
@@ -574,7 +578,7 @@ function atualizarPerfil() {
     const nome = document.getElementById('perfil-nome').value;
     const email = document.getElementById('perfil-email').value;
     const telefone = document.getElementById('perfil-telefone').value;
-    const senha = document.getElementById('perfil-senha').value;
+    const password = document.getElementById('perfil-password').value;
     
     // Validações básicas
     if (!nome || !email) {
@@ -588,41 +592,41 @@ function atualizarPerfil() {
     }
     
     // Atualiza dados do usuário no localStorage
-    usuarioLogado.nome = nome;
-    usuarioLogado.email = email;
+    utilizadorLogado.nome = nome;
+    utilizadorLogado.email = email;
     
-    // Se senha foi fornecida, atualiza
-    if (senha) {
+    // Se password foi fornecida, atualiza
+    if (password) {
         // Em um sistema real, isso seria encriptado
-        usuarioLogado.senha = senha;
+        utilizadorLogado.password = password;
         
-        // Atualiza também no banco de dados (simulação)
-        const userIndex = hotelDB.usuarios.findIndex(u => u.id === usuarioLogado.id);
+        // Atualiza também no base de dados (simulação)
+        const userIndex = hotelDB.utilizadores.findIndex(u => u.id === utilizadorLogado.id);
         if (userIndex !== -1) {
-            hotelDB.usuarios[userIndex].nome = nome;
-            hotelDB.usuarios[userIndex].email = email;
-            hotelDB.usuarios[userIndex].senha = senha;
+            hotelDB.utilizadores[userIndex].nome = nome;
+            hotelDB.utilizadores[userIndex].email = email;
+            hotelDB.utilizadores[userIndex].password = password;
         }
     }
     
     // Salva no localStorage
-    localStorage.setItem('usuario-logado', JSON.stringify(usuarioLogado));
+    localStorage.setItem('utilizador-logado', JSON.stringify(utilizadorLogado));
     
     // Atualiza interface
-    document.getElementById('nome-usuario').textContent = nome;
+    document.getElementById('nome-utilizador').textContent = nome;
     document.getElementById('sidebar-nome').textContent = nome;
     
     alert('Perfil atualizado com sucesso!');
     
-    // Limpa campo de senha
-    document.getElementById('perfil-senha').value = '';
+    // Limpa campo de password
+    document.getElementById('perfil-password').value = '';
 }
 
 // ========== FUNÇÕES UTILITÁRIAS ==========
 
 // Faz logout
 function sair() {
-    localStorage.removeItem('usuario-logado');
+    localStorage.removeItem('utilizador-logado');
     window.location.href = 'login.html';
 }
 
@@ -631,14 +635,14 @@ function sair() {
 // Inicializa o painel do cliente
 document.addEventListener('DOMContentLoaded', function() {
     // Verifica se o usuário está logado
-    if (!usuarioLogado) {
+    if (!utilizadorLogado) {
         window.location.href = 'login.html';
         return;
     }
     
     // Atualiza nome do usuário
-    document.getElementById('nome-usuario').textContent = usuarioLogado.nome;
-    document.getElementById('sidebar-nome').textContent = usuarioLogado.nome;
+    document.getElementById('nome-utilizador').textContent = utilizadorLogado.nome;
+    document.getElementById('sidebar-nome').textContent = utilizadorLogado.nome;
     
     // Mostra dashboard por padrão
     mostrarSecao('dashboard');

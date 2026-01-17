@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -30,7 +30,7 @@
                 
                 <!-- Formulário de login -->
                 <form id="form-login">
-                    <input type="hidden" id="tipo-usuario" value="cliente">
+                    <input type="hidden" id="tipo-utilizador" value="cliente">
                     
                     <div class="mb-3">
                         <label>Email</label>
@@ -39,8 +39,8 @@
                     </div>
                     
                     <div class="mb-3">
-                        <label>Senha</label>
-                        <input type="password" class="form-control" id="senha" required 
+                        <label>password</label>
+                        <input type="password" class="form-control" id="password" required 
                                placeholder="••••••">
                     </div>
                     
@@ -71,50 +71,56 @@
     <script>
         // Configura botões de tipo de usuário
         document.querySelectorAll('[data-tipo]').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function() { //adiciona um evento de clique a cada botao .... quando clicar a funcao executa
                 // Remove classe ativa de todos
-                document.querySelectorAll('[data-tipo]').forEach(b => {
-                    b.classList.remove('btn-ouro', 'active');
-                    b.classList.add('btn-outline-ouro');
+                document.querySelectorAll('[data-tipo]').forEach(b => { //garante que apenas o botao clicado fique ativo
+                    b.classList.remove('btn-ouro', 'active'); //remove classes css
+                    b.classList.add('btn-outline-ouro');  //adiciona classes css
                 });
                 
                 // Adiciona ao clicado
-                this.classList.remove('btn-outline-ouro');
+                this.classList.remove('btn-outline-ouro'); //o this - botao que foi clicado
                 this.classList.add('btn-ouro', 'active');
                 
                 // Atualiza tipo no formulário
-                document.getElementById('tipo-usuario').value = this.dataset.tipo;
+                document.getElementById('tipo-utilizador').value = this.dataset.tipo;
             });
         });
         
         // Processa login
-        document.getElementById('form-login').addEventListener('submit', function(e) {
+        document.getElementById('form-login').addEventListener('submit', function(e) {  //aqui ele captura o evento de submit do formulario
             e.preventDefault();
+
+            //aqqui ele captura os dados que o utilizador digitou
+            //o alerta serve para mostrar mensagens de erro
             
             const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-            const tipo = document.getElementById('tipo-usuario').value;
+            const password = document.getElementById('password').value;
+            const tipo = document.getElementById('tipo-utilizador').value;
             const alerta = document.getElementById('alerta-erro');
             
             // Limpa alerta anterior
             alerta.classList.add('d-none');
             
-            // Validação simples
-            if (!email || !senha) {
+            // Validação simples - verifica se o email e password estao vazios, se tiver mostra o erro
+            if (!email || !password) {
                 mostrarErro('Preencha todos os campos!');
                 return;
             }
             
-            // Busca usuário no banco de dados
-            const usuario = hotelDB.usuarios.find(u => 
+            //verifica se o email e password correspondem a algum utilizador na "base de dados"
+            const utilizador = hotelDB.utilizadores.find(u =>   //o find retorna o utilizador se encontrar senao diz undefined
+
                 u.email === email && 
-                u.senha === senha && 
+                u.password === password && 
                 u.tipo === tipo
             );
             
-            if (usuario) {
-                // Login bem-sucedido
-                localStorage.setItem('usuario-logado', JSON.stringify(usuario));
+            if (utilizador) {
+                
+                localStorage.setItem('utilizador-logado', JSON.stringify(utilizador)); //guarda o utilizador no local storage
+
+                //JSON.stringify  - transforma o objeto em string para poder guardar no local storage
                 
                 if (tipo === 'admin') {
                     window.location.href = 'admin.html';
@@ -122,7 +128,7 @@
                     window.location.href = 'cliente.html';
                 }
             } else {
-                mostrarErro('Email ou senha incorretos!');
+                mostrarErro('Email ou password incorretos!');
             }
         });
         
@@ -135,10 +141,10 @@
         
         // Verifica se já está logado
         document.addEventListener('DOMContentLoaded', function() {
-            const logado = localStorage.getItem('usuario-logado');
+            const logado = localStorage.getItem('utilizador-logado');
             if (logado) {
-                const usuario = JSON.parse(logado);
-                if (usuario.tipo === 'admin') {
+                const utilizador = JSON.parse(logado);
+                if (utilizador.tipo === 'admin') {
                     window.location.href = 'admin.html';
                 } else {
                     window.location.href = 'cliente.html';

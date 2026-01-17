@@ -1,4 +1,4 @@
-// Banco de dados simplificado do hotel
+// base de dados simplificado do hotel
 const hotelData = {
     rooms: [
         {id:1, name:"Quarto Deluxe", type:"Deluxe", price:250, maxGuests:2, status:"available"},

@@ -1,8 +1,8 @@
 // admin.js - Lógica do Painel Administrativo
 
 // Verifica se o usuário é admin
-const usuario = JSON.parse(localStorage.getItem('usuario-logado'));
-if (!usuario || usuario.tipo !== 'admin') {
+const utilizador = JSON.parse(localStorage.getItem('utilizador-logado'));
+if (!utilizador || utilizador.tipo !== 'admin') {
     window.location.href = 'login.html';
 }
 
@@ -530,7 +530,7 @@ function restaurarDemo() {
 
 // Faz logout
 function sair() {
-    localStorage.removeItem('usuario-logado');
+    localStorage.removeItem('utilizador-logado');
     window.location.href = 'login.html';
 }
 
