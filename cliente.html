@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Conta - DWM Hotel 2026</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <span class="navbar-brand">Minha Conta - DWM Hotel 2026</span>
+            <div class="d-flex align-items-center">
+                <span class="text-white me-3" id="nome-usuario">Carregando...</span>
+                <button class="btn btn-outline-ouro btn-sm" onclick="sair()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-circle fa-3x text-ouro"></i>
+                    <h5 class="mt-2" id="sidebar-nome">Cliente</h5>
+                </div>
+                
+                <nav class="nav flex-column">
+                    <a href="#" class="active" onclick="mostrarSecao('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                    <a href="#" onclick="mostrarSecao('minhas-reservas')">
+                        <i class="fas fa-calendar-check"></i> Minhas Reservas
+                    </a>
+                    <a href="#" onclick="mostrarSecao('nova-reserva')">
+                        <i class="fas fa-plus-circle"></i> Nova Reserva
+                    </a>
+                    <a href="#" onclick="mostrarSecao('perfil')">
+                        <i class="fas fa-user"></i> Meu Perfil
+                    </a>
+                    <a href="index.html" class="mt-4">
+                        <i class="fas fa-home"></i> Voltar ao Site
+                    </a>
+                </nav>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="col-md-10 main-content">
+                <!-- Dashboard do Cliente -->
+                <div id="dashboard">
+                    <h3>Dashboard do Cliente</h3>
+                    <p class="text-muted">Bem-vindo ao seu painel de controle</p>
+                    
+                    <!-- Cartões de estatísticas pessoais -->
+                    <div class="row mt-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="minhas-reservas-count">0</h2>
+                                <p>Minhas Reservas</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="minhas-noites">0</h2>
+                                <p>Noites Reservadas</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="total-gasto">€0</h2>
+                                <p>Total Gasto</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="membro-desde">2026</h2>
+                                <p>Membro Desde</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Próximas reservas -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Próximas Reservas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="proximas-reservas">
+                                <p class="text-muted">Carregando suas reservas...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Minhas Reservas -->
+                <div id="minhas-reservas" style="display: none;">
+                    <h3>Minhas Reservas</h3>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Aqui você pode ver e gerenciar todas as suas reservas para 2026
+                    </div>
+                    
+                    <div id="lista-minhas-reservas" class="table-responsive">
+                        <!-- Carregado por JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Nova Reserva -->
+                <div id="nova-reserva" style="display: none;">
+                    <h3>Nova Reserva para 2026</h3>
+                    <p class="text-muted">Faça sua reserva para o ano de 2026</p>
+                    
+                    <!-- Formulário de busca -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Buscar Quartos Disponíveis</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label>Check-in</label>
+                                    <input type="date" class="form-control" id="checkin-busca" 
+                                           min="2026-01-01" max="2026-12-31" required>
+                                </div>
+                                <div class="col-md-4">
+                                    <label>Check-out</label>
+                                    <input type="date" class="form-control" id="checkout-busca" 
+                                           min="2026-01-02" max="2026-12-31" required>
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Hóspedes</label>
+                                    <select class="form-control" id="hospedes-busca">
+                                        <option>1</option>
+                                        <option selected>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2 d-flex align-items-end">
+                                    <button class="btn btn-ouro w-100" onclick="buscarQuartosDisponiveis()">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Resultados da busca -->
+                    <div class="mt-4" id="resultados-busca" style="display: none;">
+                        <h4>Quartos Disponíveis</h4>
+                        <div id="quartos-disponiveis-lista" class="row">
+                            <!-- Carregado por JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <!-- Informações importantes -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Informações Importantes</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-info-circle text-ouro"></i> Política de Cancelamento</h6>
+                                    <ul class="small">
+                                        <li>Cancelamento gratuito até 48h antes do check-in</li>
+                                        <li>Taxa de 50% para cancelamentos com menos de 48h</li>
+                                        <li>No-show: cobrança total da estadia</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6><i class="fas fa-calendar-alt text-ouro"></i> Datas de 2026</h6>
+                                    <p class="small">Todas as reservas são apenas para o ano de 2026. 
+                                    Verifique cuidadosamente as datas antes de confirmar.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Meu Perfil -->
+                <div id="perfil" style="display: none;">
+                    <h3>Meu Perfil</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Informações Pessoais</h5>
+                                </div>
+                                <div class="card-body">
+                                    <form id="form-perfil">
+                                        <div class="mb-3">
+                                            <label>Nome Completo</label>
+                                            <input type="text" class="form-control" id="perfil-nome" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" id="perfil-email" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Telefone</label>
+                                            <input type="tel" class="form-control" id="perfil-telefone">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label>Nova Senha (deixe em branco para manter)</label>
+                                            <input type="password" class="form-control" id="perfil-senha">
+                                        </div>
+                                        <button type="submit" class="btn btn-ouro">
+                                            <i class="fas fa-save"></i> Atualizar Perfil
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Histórico de Estadias</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div id="historico-estadias">
+                                        <!-- Carregado por JavaScript -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação de Reserva -->
+    <div class="modal fade" id="modal-confirmar-reserva">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmar Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza que deseja reservar o quarto <strong id="modal-quarto-nome"></strong>?</p>
+                    <p><strong>Período:</strong> <span id="modal-periodo"></span></p>
+                    <p><strong>Hóspedes:</strong> <span id="modal-hospedes"></span></p>
+                    <p><strong>Total:</strong> <span id="modal-total" class="h4 text-ouro"></span></p>
+                    <div class="alert alert-warning mt-3">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Esta reserva é para 2026. Verifique as datas antes de confirmar.
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-ouro" onclick="confirmarReserva()">Confirmar Reserva</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Detalhes da Reserva -->
+    <div class="modal fade" id="modal-detalhes-reserva">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Detalhes da Reserva</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="modal-detalhes-conteudo">
+                    <!-- Carregado por JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/cliente.js"></script>
+</body>
+</html>

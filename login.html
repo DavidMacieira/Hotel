@@ -3,511 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DWM Hotel Hotel - Login</title>
+    <title>Login - DWM Hotel 2026</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        :root {
-            --primary-gold: #d4af37;
-            --dark-blue: #1a2332;
-            --light-gold: #f4e4c1;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--dark-blue) 0%, #2c3e50 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-container {
-            background: white;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-            width: 100%;
-            max-width: 1000px;
-            min-height: 600px;
-        }
-
-        .login-left {
-            background: linear-gradient(135deg, var(--dark-blue) 0%, #2c3e50 100%);
-            color: white;
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-left::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, var(--primary-gold) 0%, transparent 70%);
-            opacity: 0.1;
-        }
-
-        .login-right {
-            padding: 3rem;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hotel-logo {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary-gold);
-            margin-bottom: 2rem;
-            letter-spacing: 2px;
-        }
-
-        .welcome-text {
-            font-size: 2.2rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
-            line-height: 1.2;
-        }
-
-        .subtitle {
-            color: var(--light-gold);
-            margin-bottom: 2rem;
-            font-size: 1.1rem;
-        }
-
-        .features {
-            list-style: none;
-            padding: 0;
-            margin: 2rem 0;
-        }
-
-        .features li {
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-        }
-
-        .features i {
-            color: var(--primary-gold);
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
-
-        .login-form .form-label {
-            font-weight: 600;
-            color: var(--dark-blue);
-            margin-bottom: 0.5rem;
-        }
-
-        .login-form .form-control {
-            border: 2px solid #e0e0e0;
-            padding: 0.8rem 1rem;
-            border-radius: 10px;
-            margin-bottom: 1.5rem;
-            transition: all 0.3s;
-        }
-
-        .login-form .form-control:focus {
-            border-color: var(--primary-gold);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
-        }
-
-        .btn-login {
-            background: var(--primary-gold);
-            color: var(--dark-blue);
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            width: 100%;
-            transition: all 0.3s;
-            margin-top: 0.5rem;
-        }
-
-        .btn-login:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
-        }
-
-        .login-options {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 1rem;
-            font-size: 0.9rem;
-        }
-
-        .remember-me {
-            display: flex;
-            align-items: center;
-        }
-
-        .remember-me input {
-            margin-right: 5px;
-        }
-
-        .forgot-password {
-            color: var(--primary-gold);
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        .login-type {
-            text-align: center;
-            margin: 2rem 0;
-            position: relative;
-        }
-
-        .login-type::before,
-        .login-type::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            width: 45%;
-            height: 1px;
-            background: #e0e0e0;
-        }
-
-        .login-type::before {
-            left: 0;
-        }
-
-        .login-type::after {
-            right: 0;
-        }
-
-        .type-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-        }
-
-        .type-btn {
-            flex: 1;
-            padding: 0.8rem;
-            border: 2px solid #e0e0e0;
-            background: white;
-            border-radius: 10px;
-            font-weight: 600;
-            transition: all 0.3s;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-
-        .type-btn.active {
-            border-color: var(--primary-gold);
-            background: rgba(212, 175, 55, 0.1);
-            color: var(--dark-blue);
-        }
-
-        .guest-login {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 2rem;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .guest-link {
-            color: var(--primary-gold);
-            text-decoration: none;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .guest-link:hover {
-            text-decoration: underline;
-        }
-
-        .alert {
-            border-radius: 10px;
-            border: none;
-            margin-bottom: 1.5rem;
-        }
-
-        .alert-danger {
-            background: rgba(220, 53, 69, 0.1);
-            color: #dc3545;
-            border-left: 4px solid #dc3545;
-        }
-
-        .modal-content {
-            border-radius: 15px;
-            border: none;
-        }
-
-        @media (max-width: 768px) {
-            .login-container {
-                flex-direction: column;
-                margin: 1rem;
-            }
-            
-            .login-left,
-            .login-right {
-                padding: 2rem;
-            }
-            
-            .welcome-text {
-                font-size: 1.8rem;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="login-page">
     <div class="login-container">
-        <div class="row g-0">
-            <!-- Left Side -->
-            <div class="col-md-6 login-left">
-                <div class="hotel-logo">
-                    <i class="fas fa-gem"></i> DWM Hotel
-                </div>
-                <h1 class="welcome-text">Bem-vindo ao Sistema do Hotel</h1>
-                <p class="subtitle">Faça login para acessar sua conta e gerenciar suas reservas</p>
+        <div class="card login-card">
+            <div class="card-body">
+                <h2 class="text-center mb-4">
+                    <i class="fas fa-gem text-ouro"></i> DWM Hotel 2026
+                </h2>
                 
-                <ul class="features">
-                    <li><i class="fas fa-check-circle"></i> Gerencie suas reservas online</li>
-                    <li><i class="fas fa-check-circle"></i> Acesso a ofertas exclusivas</li>
-                    <li><i class="fas fa-check-circle"></i> Histórico de estadias</li>
-                    <li><i class="fas fa-check-circle"></i> Suporte 24/7</li>
-                </ul>
+                <!-- Alertas -->
+                <div id="alerta-erro" class="alert alert-danger d-none"></div>
                 
-                <div class="mt-auto">
-                    <p><i class="fas fa-phone-volume"></i> Precisa de ajuda? +351 21 123 4567</p>
-                    <p><i class="fas fa-envelope"></i> suporte@grandelysee.com</p>
-                </div>
-            </div>
-            
-            <!-- Right Side -->
-            <div class="col-md-6 login-right">
-                <div id="errorAlert" class="alert alert-danger d-none">
-                    <i class="fas fa-exclamation-circle"></i> <span id="errorMessage"></span>
-                </div>
-                
-                <div class="login-type">
-                    <span class="text-muted">SELECIONE O TIPO DE LOGIN</span>
-                </div>
-                
-                <div class="type-buttons">
-                    <button class="type-btn active" data-type="client">
+                <!-- Botões de tipo de usuário -->
+                <div class="btn-group w-100 mb-4" role="group">
+                    <button type="button" class="btn btn-ouro active" data-tipo="cliente">
                         <i class="fas fa-user"></i> Cliente
                     </button>
-                    <button class="type-btn" data-type="admin">
+                    <button type="button" class="btn btn-outline-ouro" data-tipo="admin">
                         <i class="fas fa-user-shield"></i> Administrador
                     </button>
                 </div>
                 
-                <form id="loginForm" class="login-form">
-                    <input type="hidden" id="loginType" value="client">
+                <!-- Formulário de login -->
+                <form id="form-login">
+                    <input type="hidden" id="tipo-usuario" value="cliente">
                     
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="seu@email.com" required>
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="email" required 
+                               placeholder="exemplo@email.com">
                     </div>
                     
                     <div class="mb-3">
-                        <label for="password" class="form-label">Senha</label>
-                        <input type="password" class="form-control" id="password" placeholder="Sua senha" required>
+                        <label>Senha</label>
+                        <input type="password" class="form-control" id="senha" required 
+                               placeholder="••••••">
                     </div>
                     
-                    <div class="login-options">
-                        <div class="remember-me">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">Lembrar-me</label>
-                        </div>
-                        <a href="#" class="forgot-password" data-bs-toggle="modal" data-bs-target="#forgotModal">
-                            Esqueci a senha
-                        </a>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-login">
+                    <button type="submit" class="btn btn-ouro w-100">
                         <i class="fas fa-sign-in-alt"></i> Entrar
                     </button>
-                    
-                    <div class="guest-login">
-                        <p>Quer apenas explorar?</p>
-                        <a href="index.html" class="guest-link">
-                            <i class="fas fa-hotel"></i> Acessar como visitante
-                        </a>
-                    </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Forgot Password Modal -->
-    <div class="modal fade" id="forgotModal" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Recuperar Senha</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="recoveryEmail" class="form-label">Digite seu email</label>
-                        <input type="email" class="form-control" id="recoveryEmail" placeholder="seu@email.com">
-                    </div>
-                    <p class="text-muted small">Enviaremos um link de recuperação para seu email.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-login" id="sendRecovery">Enviar Link</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Login type selection
-        document.querySelectorAll('.type-btn').forEach(button => {
-            button.addEventListener('click', function() {
-                document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                document.getElementById('loginType').value = this.dataset.type;
                 
-                // Change placeholder based on type
-                const emailInput = document.getElementById('email');
-                if (this.dataset.type === 'admin') {
-                    emailInput.placeholder = 'admin@grandelysee.com';
-                } else {
-                    emailInput.placeholder = 'seu@email.com';
-                }
+                <div class="text-center mt-3">
+                    <a href="index.html" class="text-decoration-none">
+                        ← Voltar para o site
+                    </a>
+                </div>
+                
+                <!-- Informações para teste -->
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h6>Credenciais para teste:</h6>
+                    <small>
+                        <strong>Cliente:</strong> cliente@exemplo.com / 123456<br>
+                        <strong>Admin:</strong> admin@dwmhotel.com / admin123
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/database.js"></script>
+    <script>
+        // Configura botões de tipo de usuário
+        document.querySelectorAll('[data-tipo]').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove classe ativa de todos
+                document.querySelectorAll('[data-tipo]').forEach(b => {
+                    b.classList.remove('btn-ouro', 'active');
+                    b.classList.add('btn-outline-ouro');
+                });
+                
+                // Adiciona ao clicado
+                this.classList.remove('btn-outline-ouro');
+                this.classList.add('btn-ouro', 'active');
+                
+                // Atualiza tipo no formulário
+                document.getElementById('tipo-usuario').value = this.dataset.tipo;
             });
         });
-
-        // Login form submission
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        
+        // Processa login
+        document.getElementById('form-login').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const loginType = document.getElementById('loginType').value;
             const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const errorAlert = document.getElementById('errorAlert');
-            const errorMessage = document.getElementById('errorMessage');
+            const senha = document.getElementById('senha').value;
+            const tipo = document.getElementById('tipo-usuario').value;
+            const alerta = document.getElementById('alerta-erro');
             
-            // Clear previous errors
-            errorAlert.classList.add('d-none');
+            // Limpa alerta anterior
+            alerta.classList.add('d-none');
             
-            // Simple validation
-            if (!email || !password) {
-                errorMessage.textContent = 'Por favor, preencha todos os campos.';
-                errorAlert.classList.remove('d-none');
+            // Validação simples
+            if (!email || !senha) {
+                mostrarErro('Preencha todos os campos!');
                 return;
             }
             
-            // Simulate login process
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Autenticando...';
-            submitBtn.disabled = true;
+            // Busca usuário no banco de dados
+            const usuario = hotelDB.usuarios.find(u => 
+                u.email === email && 
+                u.senha === senha && 
+                u.tipo === tipo
+            );
             
-            // Simulate API call delay
-            setTimeout(() => {
-                // Demo credentials for testing
-                const validCredentials = {
-                    client: [
-                        { email: 'cliente@exemplo.com', password: '123456', name: 'João Silva' },
-                        { email: 'lucasmoura@gmail.com', password: '123456', name: 'Lucas Moura' }
-                    ],
-                    admin: [
-                        { email: 'admin@grandelysee.com', password: 'admin123', name: 'Administrador' }
-                    ]
-                };
+            if (usuario) {
+                // Login bem-sucedido
+                localStorage.setItem('usuario-logado', JSON.stringify(usuario));
                 
-                const users = validCredentials[loginType];
-                const user = users.find(u => u.email === email && u.password === password);
-                
-                if (user) {
-                    // Store user data in localStorage
-                    localStorage.setItem('loggedInUser', JSON.stringify({
-                        type: loginType,
-                        email: user.email,
-                        name: user.name,
-                        loginTime: new Date().toISOString()
-                    }));
-                    
-                    // Store remember me preference
-                    if (document.getElementById('remember').checked) {
-                        localStorage.setItem('rememberEmail', email);
-                    } else {
-                        localStorage.removeItem('rememberEmail');
-                    }
-                    
-                    // Redirect based on user type
-                    if (loginType === 'admin') {
-                        window.location.href = 'admin-dashboard.html';
-                    } else {
-                        window.location.href = 'client-dashboard.html';
-                    }
+                if (tipo === 'admin') {
+                    window.location.href = 'admin.html';
                 } else {
-                    errorMessage.textContent = 'Email ou senha incorretos. Tente novamente.';
-                    errorAlert.classList.remove('d-none');
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
+                    window.location.href = 'cliente.html';
                 }
-            }, 1500);
-        });
-
-        // Forgot password functionality
-        document.getElementById('sendRecovery').addEventListener('click', function() {
-            const email = document.getElementById('recoveryEmail').value;
-            const modal = bootstrap.Modal.getInstance(document.getElementById('forgotModal'));
-            
-            if (email && email.includes('@')) {
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-                this.disabled = true;
-                
-                setTimeout(() => {
-                    alert(`Link de recuperação enviado para: ${email}\n\n(Esta é uma demonstração. Em um sistema real, um email seria enviado.)`);
-                    modal.hide();
-                    this.innerHTML = 'Enviar Link';
-                    this.disabled = false;
-                    document.getElementById('recoveryEmail').value = '';
-                }, 1500);
             } else {
-                alert('Por favor, insira um email válido.');
+                mostrarErro('Email ou senha incorretos!');
             }
         });
-
-        // Check if there's a remembered email
+        
+        // Função para mostrar erros
+        function mostrarErro(mensagem) {
+            const alerta = document.getElementById('alerta-erro');
+            alerta.textContent = mensagem;
+            alerta.classList.remove('d-none');
+        }
+        
+        // Verifica se já está logado
         document.addEventListener('DOMContentLoaded', function() {
-            const rememberedEmail = localStorage.getItem('rememberEmail');
-            if (rememberedEmail) {
-                document.getElementById('email').value = rememberedEmail;
-                document.getElementById('remember').checked = true;
-            }
-            
-            // Check if user is already logged in
-            const loggedInUser = localStorage.getItem('loggedInUser');
-            if (loggedInUser) {
-                const user = JSON.parse(loggedInUser);
-                if (user.type === 'admin') {
-                    window.location.href = 'admin-dashboard.html';
+            const logado = localStorage.getItem('usuario-logado');
+            if (logado) {
+                const usuario = JSON.parse(logado);
+                if (usuario.tipo === 'admin') {
+                    window.location.href = 'admin.html';
                 } else {
-                    window.location.href = 'client-dashboard.html';
+                    window.location.href = 'cliente.html';
                 }
             }
         });

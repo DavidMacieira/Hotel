@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - DWM Hotel 2026</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-dark">
+        <div class="container">
+            <span class="navbar-brand">Painel Administrativo - 2026</span>
+            <button class="btn btn-outline-ouro btn-sm" onclick="sair()">
+                <i class="fas fa-sign-out-alt"></i> Sair
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar">
+                <h5 class="mb-4"><i class="fas fa-cog"></i> Menu Admin</h5>
+                <a href="#" class="active" onclick="mostrarSecao('dashboard')">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+                <a href="#" onclick="mostrarSecao('reservas')">
+                    <i class="fas fa-calendar-alt"></i> Todas Reservas
+                </a>
+                <a href="#" onclick="mostrarSecao('quartos')">
+                    <i class="fas fa-bed"></i> Gestão Quartos
+                </a>
+                <a href="#" onclick="mostrarSecao('relatorios')">
+                    <i class="fas fa-chart-line"></i> Relatórios
+                </a>
+                <a href="#" onclick="mostrarSecao('ocupacao')">
+                    <i class="fas fa-calendar-check"></i> Ocupação
+                </a>
+                <a href="index.html" class="mt-4">
+                    <i class="fas fa-home"></i> Voltar ao Site
+                </a>
+            </div>
+
+            <!-- Conteúdo Principal -->
+            <div class="col-md-10 main-content">
+                <!-- Dashboard -->
+                <div id="dashboard">
+                    <h3>Dashboard Administrativo 2026</h3>
+                    <p class="text-muted">Estatísticas gerais do hotel</p>
+                    
+                    <!-- Cartões de estatísticas -->
+                    <div class="row mt-4">
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="reservas-ativas">0</h2>
+                                <p>Reservas Ativas</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="quartos-disponiveis">0</h2>
+                                <p>Quartos Disponíveis</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="receita-mes">€0</h2>
+                                <p>Receita do Mês</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="stat-card">
+                                <h2 id="taxa-ocupacao">0%</h2>
+                                <p>Taxa de Ocupação</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Gráfico de receita mensal -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Receita Mensal 2026</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="grafico-receita" height="100"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Últimas reservas -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Últimas Reservas</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="ultimas-reservas" class="table-responsive">
+                                <!-- Carregado por JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Todas as Reservas -->
+                <div id="reservas" style="display: none;">
+                    <h3>Gestão de Reservas</h3>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <select class="form-control" id="filtro-status" onchange="carregarReservas()">
+                                <option value="">Todos Status</option>
+                                <option value="confirmada">Confirmadas</option>
+                                <option value="cancelada">Canceladas</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="month" class="form-control" id="filtro-mes" min="2026-01" max="2026-12" onchange="carregarReservas()">
+                        </div>
+                        <div class="col-md-6 text-end">
+                            <button class="btn btn-outline-ouro me-2" onclick="exportarDados()">
+                                <i class="fas fa-download"></i> Exportar CSV
+                            </button>
+                            <button class="btn btn-outline-danger" onclick="restaurarDemo()" title="Resetar dados">
+                                <i class="fas fa-redo"></i> Resetar Demo
+                            </button>
+                        </div>
+                    </div>
+                    <div id="lista-reservas" class="table-responsive">
+                        <!-- Carregado por JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Gestão de Quartos -->
+                <div id="quartos" style="display: none;">
+                    <h3>Gestão de Quartos</h3>
+                    <button class="btn btn-ouro mb-3" onclick="abrirModalQuarto()">
+                        <i class="fas fa-plus"></i> Adicionar Quarto
+                    </button>
+                    <div class="row" id="lista-quartos-admin">
+                        <!-- Carregado por JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Relatórios -->
+                <div id="relatorios" style="display: none;">
+                    <h3>Relatórios Financeiros 2026</h3>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Receita Anual</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h2 id="receita-anual">€0</h2>
+                                    <p>Total faturado em 2026</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Estatísticas</h5>
+                                </div>
+                                <div class="card-body">
+                                    <p>Reservas: <strong id="total-reservas">0</strong></p>
+                                    <p>Noites vendidas: <strong id="total-noites">0</strong></p>
+                                    <p>Média/noite: <strong id="media-noite">€0</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">Detalhamento Mensal</h5>
+                        </div>
+                        <div class="card-body">
+                            <div id="tabela-mensal" class="table-responsive">
+                                <!-- Carregado por JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Calendário de Ocupação -->
+                <div id="ocupacao" style="display: none;">
+                    <h3>Calendário de Ocupação 2026</h3>
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <select class="form-control" id="filtro-quarto" onchange="carregarCalendario()">
+                                <option value="todos">Todos os Quartos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <div id="calendario-ocupacao"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar/editar quarto -->
+    <div class="modal fade" id="modal-quarto">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Gerenciar Quarto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-quarto">
+                        <input type="hidden" id="quarto-id">
+                        <div class="mb-3">
+                            <label>Nome do Quarto</label>
+                            <input type="text" class="form-control" id="quarto-nome" required>
+                        </div>
+                        <div class="mb-3">
+                            <label>Tipo</label>
+                            <select class="form-control" id="quarto-tipo" required>
+                                <option value="Standard">Standard</option>
+                                <option value="Deluxe">Deluxe</option>
+                                <option value="Suite">Suite</option>
+                                <option value="Presidencial">Presidencial</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Preço por Noite (€)</label>
+                            <input type="number" class="form-control" id="quarto-preco" required min="50">
+                        </div>
+                        <div class="mb-3">
+                            <label>Máximo de Hóspedes</label>
+                            <input type="number" class="form-control" id="quarto-hospedes" required min="1" max="10">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-ouro" onclick="salvarQuarto()">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script src="js/database.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

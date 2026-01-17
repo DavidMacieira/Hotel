@@ -3,355 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DWM Hotel Hotel - Luxury Experience</title>
-    
+    <title>DWM Hotel - Luxo 2026</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome -->
+    <!-- Font Awesome (ícones) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    
-    <!-- CSS Personalizado -->
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/responsive.css">
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Meu CSS -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> DWM Hotel</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#home">Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#rooms">Quartos</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#services">Serviços</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#gallery">Galeria</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#contact">Contato</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                    <li class="nav-item"><button class="btn btn-reserve" id="reserveBtn">Reservar Agora</button></li>
-                </ul>
+            <a class="navbar-brand" href="#"><i class="fas fa-gem"></i> DWM Hotel 2026</a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#quartos">Quartos</a>
+                <a class="nav-link" href="#servicos">Serviços</a>
+                <a class="nav-link" href="login.html">Login</a>
+                <button class="btn btn-ouro ms-3" onclick="vaiParaLogin()">Reservar Agora</button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="hero-content">
+    <!-- Seção Hero (banner principal) -->
+    <section class="hero">
+        <div class="container">
             <h1>Bem-vindo ao DWM Hotel</h1>
-            <p>Experiência de Luxo Incomparável</p>
-            <button class="btn btn-reserve btn-lg" id="discoverBtn">Descubra Mais</button>
+            <p>Experiência de luxo para 2026</p>
+            <button class="btn btn-ouro btn-lg" onclick="document.querySelector('#quartos').scrollIntoView()">
+                Ver Quartos
+            </button>
         </div>
     </section>
 
-    <!-- Booking Form -->
-    <div class="container">
-        <div class="booking-form">
+    <!-- Formulário de busca -->
+    <div class="container busca-container">
+        <div class="card busca-card">
             <div class="row g-3">
                 <div class="col-md-3">
-                    <label class="form-label">Check-in</label>
-                    <input type="date" class="form-control" id="checkin">
+                    <label>Check-in</label>
+                    <input type="date" class="form-control" id="checkin" min="2026-01-01" max="2026-12-31">
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">Check-out</label>
-                    <input type="date" class="form-control" id="checkout">
+                    <label>Check-out</label>
+                    <input type="date" class="form-control" id="checkout" min="2026-01-02" max="2026-12-31">
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">Hóspedes</label>
-                    <select class="form-control" id="guests">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
+                    <label>Hóspedes</label>
+                    <select class="form-control" id="hospedes">
+                        <option>1</option><option>2</option><option>3</option><option>4</option>
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <label class="form-label">Quartos</label>
-                    <select class="form-control" id="roomsCount">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4+</option>
+                    <label>Quartos</label>
+                    <select class="form-control" id="quartos-count">
+                        <option>1</option><option>2</option><option>3</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <label class="form-label">&nbsp;</label>
-                    <button class="btn btn-reserve w-100" id="searchBtn">Buscar</button>
+                <div class="col-md-2 d-flex align-items-end">
+                    <button class="btn btn-ouro w-100" onclick="buscarDisponibilidade()">Buscar</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Rooms Section -->
-    <section id="rooms" class="py-5 mt-5">
+    <!-- Seção Quartos -->
+    <section id="quartos" class="py-5">
         <div class="container">
-            <div class="section-title">
-                <h2>Nossos Quartos</h2>
-                <p>Acomodações de Primeira Classe</p>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="room-card card">
-                        <div class="room-image">
-                            <div class="room-price">€250/noite</div>
-                        </div>
-                        <div class="card-body">
-                            <img src="img/rooms/frames-for-your-heart-FqqiAvJejto-unsplash.jpg" alt="Quarto Deluxe" class="img-fluid mb-3">
-                            <h3 class="card-title">Quarto Deluxe</h3>
-                            <p class="card-text">Elegância e conforto em perfeita harmonia. Vista panorâmica da cidade.</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-check text-success"></i> 35m² de espaço</li>
-                                <li><i class="fas fa-check text-success"></i> Wi-Fi de alta velocidade</li>
-                                <li><i class="fas fa-check text-success"></i> Banheira de hidromassagem</li>
-                                <li><i class="fas fa-check text-success"></i> Mini bar premium</li>
-                            </ul>
-                            <button class="btn btn-reserve w-100 book-room" data-room="Quarto Deluxe" data-price="€250/noite">Reservar</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="room-card card">
-                        <div class="room-image">
-                            <div class="room-price">€450/noite</div>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Suíte Executive</h3>
-                            <p class="card-text">Luxo e sofisticação para uma experiência memorável.</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-check text-success"></i> 60m² de espaço</li>
-                                <li><i class="fas fa-check text-success"></i> Sala de estar privativa</li>
-                                <li><i class="fas fa-check text-success"></i> Varanda exclusiva</li>
-                                <li><i class="fas fa-check text-success"></i> Serviço de mordomo</li>
-                            </ul>
-                            <button class="btn btn-reserve w-100 book-room" data-room="Suíte Executive" data-price="€450/noite">Reservar</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="room-card card">
-                        <div class="room-image">
-                            <div class="room-price">€800/noite</div>
-                        </div>
-                        <div class="card-body">
-                            <h3 class="card-title">Suíte Presidential</h3>
-                            <p class="card-text">O ápice do luxo e exclusividade. Para os mais exigentes.</p>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-check text-success"></i> 120m² de espaço</li>
-                                <li><i class="fas fa-check text-success"></i> Piano de cauda</li>
-                                <li><i class="fas fa-check text-success"></i> Jacuzzi privativa</li>
-                                <li><i class="fas fa-check text-success"></i> Chef pessoal disponível</li>
-                            </ul>
-                            <button class="btn btn-reserve w-100 book-room" data-room="Suíte Presidential" data-price="€800/noite">Reservar</button>
-                        </div>
-                    </div>
-                </div>
+            <h2 class="text-center mb-5">Nossos Quartos 2026</h2>
+            <div class="row" id="lista-quartos">
+                <!-- Quartos carregados por JavaScript -->
             </div>
         </div>
     </section>
 
-    <!-- Services Section -->
-    <section id="services" class="py-5 bg-light">
+    <!-- Seção Serviços -->
+    <section id="servicos" class="py-5 bg-cinza">
         <div class="container">
-            <div class="section-title">
-                <h2>Serviços & Comodidades</h2>
-                <p>Tudo para tornar sua estadia inesquecível</p>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-utensils"></i></div>
-                        <h4>Restaurante Gourmet</h4>
-                        <p>Culinária internacional com chef estrelado Michelin</p>
-                    </div>
+            <h2 class="text-center mb-5">Serviços Incluídos</h2>
+            <div class="row text-center">
+                <div class="col-md-3 mb-4">
+                    <i class="fas fa-wifi fa-2x text-ouro"></i>
+                    <h5 class="mt-2">Wi-Fi Grátis</h5>
                 </div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-spa"></i></div>
-                        <h4>Spa & Wellness</h4>
-                        <p>Tratamentos relaxantes e revigorantes</p>
-                    </div>
+                <div class="col-md-3 mb-4">
+                    <i class="fas fa-swimming-pool fa-2x text-ouro"></i>
+                    <h5 class="mt-2">Piscina</h5>
                 </div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-swimming-pool"></i></div>
-                        <h4>Piscina Infinita</h4>
-                        <p>Vista panorâmica no rooftop</p>
-                    </div>
+                <div class="col-md-3 mb-4">
+                    <i class="fas fa-utensils fa-2x text-ouro"></i>
+                    <h5 class="mt-2">Café da Manhã</h5>
                 </div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-dumbbell"></i></div>
-                        <h4>Fitness Center</h4>
-                        <p>Academia 24h com personal trainer</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-cocktail"></i></div>
-                        <h4>Bar Lounge</h4>
-                        <p>Drinks exclusivos e ambiente sofisticado</p>
-                    </div>
-</div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-concierge-bell"></i></div>
-                        <h4>Concierge 24h</h4>
-                        <p>Atendimento personalizado a qualquer hora</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-car"></i></div>
-                        <h4>Valet Parking</h4>
-                        <p>Estacionamento com manobrista</p>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="service-card">
-                        <div class="service-icon"><i class="fas fa-briefcase"></i></div>
-                        <h4>Business Center</h4>
-                        <p>Salas de reunião e conferências</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Gallery Section -->
-    <section id="gallery" class="py-5">
-        <div class="container">
-            <div class="section-title">
-                <h2>Galeria</h2>
-                <p>Explore nosso hotel de luxo</p>
-            </div>
-            <div class="row">
-<div class="col-md-4">
-    <div class="gallery-item">
-        <img src="img/rooms/quarto1.jpg" alt="Descrição da imagem" class="img-fluid">
-    </div>
-</div>
-
-                <div class="col-md-4">
-                    <div class="gallery-item">
-                        <img src="img/rooms/quarto2.jpg" alt="Descrição da imagem" class="img-fluid">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="gallery-item"></div>
-                </div>
-                <div class="col-md-6">
-                    <div class="gallery-item"></div>
-                </div>
-                <div class="col-md-6">
-                    <div class="gallery-item"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section id="contact" class="py-5">
-        <div class="container">
-            <div class="section-title">
-                <h2>Entre em Contato</h2>
-                <p>Estamos aqui para ajudá-lo</p>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <form id="contactForm">
-                        <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Seu Nome" id="contactName" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Seu Email" id="contactEmail" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="tel" class="form-control" placeholder="Telefone" id="contactPhone">
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" rows="5" placeholder="Sua Mensagem" id="contactMessage" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-reserve w-100" id="contactSubmit">Enviar Mensagem</button>
-                    </form>
-                </div>
-                <div class="col-md-6">
-                    <div class="p-4">
-                        <h4><i class="fas fa-map-marker-alt text-warning"></i> Endereço</h4>
-                        <p>Avenida dos Campos Elísios, 1000<br>1000-001 Lisboa, Portugal</p>
-                        
-                        <h4 class="mt-4"><i class="fas fa-phone text-warning"></i> Telefone</h4>
-                        <p>+351 21 123 4567</p>
-                        
-                        <h4 class="mt-4"><i class="fas fa-envelope text-warning"></i> Email</h4>
-                        <p>reservas@grandelysee.com</p>
-                        
-                        <h4 class="mt-4"><i class="fas fa-clock text-warning"></i> Horário de Atendimento</h4>
-                        <p>24 horas por dia, 7 dias por semana</p>
-                    </div>
+                <div class="col-md-3 mb-4">
+                    <i class="fas fa-spa fa-2x text-ouro"></i>
+                    <h5 class="mt-2">Spa</h5>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h4 class="mb-4"><i class="fas fa-gem"></i> DWM Hotel</h4>
-                    <p>Experiência de luxo incomparável no coração de Lisboa. Onde cada detalhe importa e cada momento é especial.</p>
-                    <div class="social-icons mt-4">
-                        <a href="#"><i class="fab fa-facebook"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <h5 class="mb-4">Links Rápidos</h5>
-                    <div class="footer-links">
-                        <a href="#home">Início</a>
-                        <a href="#rooms">Quartos</a>
-                        <a href="#services">Serviços</a>
-                        <a href="#gallery">Galeria</a>
-                        <a href="#contact">Contato</a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="mb-4">Serviços</h5>
-                    <div class="footer-links">
-                        <a href="#">Restaurante</a>
-                        <a href="#">Spa & Wellness</a>
-                        <a href="#">Piscina</a>
-                        <a href="#">Fitness</a>
-                        <a href="#">Business Center</a>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <h5 class="mb-4">Newsletter</h5>
-                    <p>Receba ofertas exclusivas e novidades</p>
-                    <div class="input-group">
-                        <input type="email" class="form-control" placeholder="Seu email" id="newsletterEmail">
-                        <button class="btn btn-reserve" id="newsletterBtn">Enviar</button>
-                    </div>
-                </div>
-            </div>
-            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
-            <div class="text-center">
-                <p>&copy; 2026 DWM Hotel Hotel. Todos os direitos reservados.</p>
-            </div>
+    <footer class="py-4">
+        <div class="container text-center">
+            <p>&copy; 2026 DWM Hotel. Todos os direitos reservados.</p>
+            <p class="small">Sistema de gestão hoteleira para o ano de 2026</p>
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- JS Personalizado -->
-    <script src="js/main.js"></script>
+    <!-- Scripts -->
+    <script src="js/database.js"></script>
+    <script>
+        // Funções da página inicial
+        
+        // Vai para página de login
+        function vaiParaLogin() {
+            window.location.href = 'login.html';
+        }
+        
+        // Busca disponibilidade de quartos
+        function buscarDisponibilidade() {
+            const checkin = document.getElementById('checkin').value;
+            const checkout = document.getElementById('checkout').value;
+            
+            if (!checkin || !checkout) {
+                alert('Por favor, selecione as datas!');
+                return;
+            }
+            
+            // Verifica se é 2026
+            if (!checkin.startsWith('2026') || !checkout.startsWith('2026')) {
+                alert('Reservas apenas para 2026!');
+                return;
+            }
+            
+            alert('Quartos disponíveis encontrados! Faça login para reservar.');
+            window.location.href = 'login.html';
+        }
+        
+        // Carrega quartos na página inicial
+        function carregarQuartos() {
+            const container = document.getElementById('lista-quartos');
+            const quartos = hotelDB.quartos.slice(0, 3); // Mostra apenas 3
+            
+            let html = '';
+            quartos.forEach(quarto => {
+                html += `
+                    <div class="col-md-4 mb-4">
+                        <div class="card quarto-card">
+                            <img src="${quarto.imagem}" class="card-img-top" alt="${quarto.nome}">
+                            <div class="card-body">
+                                <h5 class="card-title">${quarto.nome}</h5>
+                                <p class="card-text">${quarto.descricao}</p>
+                                <p><strong>€${quarto.preco}/noite</strong></p>
+                                <button class="btn btn-ouro w-100" onclick="vaiParaLogin()">
+                                    Reservar Agora
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html;
+        }
+        
+        // Inicializa a página
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configura datas padrão para 2026
+            const hoje = new Date();
+            const primeiroDia2026 = new Date('2026-01-01');
+            
+            let checkinPadrao = '2026-01-01';
+            let checkoutPadrao = '2026-01-03';
+            
+            if (hoje < primeiroDia2026) {
+                // Se ainda não chegou 2026
+                checkinPadrao = '2026-01-01';
+                checkoutPadrao = '2026-01-03';
+            } else if (hoje.getFullYear() === 2026) {
+                // Se já estamos em 2026
+                const amanha = new Date();
+                amanha.setDate(amanha.getDate() + 1);
+                checkinPadrao = amanha.toISOString().split('T')[0];
+                
+                const depoisAmanha = new Date(amanha);
+                depoisAmanha.setDate(depoisAmanha.getDate() + 2);
+                checkoutPadrao = depoisAmanha.toISOString().split('T')[0];
+            }
+            
+            document.getElementById('checkin').value = checkinPadrao;
+            document.getElementById('checkout').value = checkoutPadrao;
+            
+            // Carrega os quartos
+            carregarQuartos();
+        });
+    </script>
 </body>
 </html>
