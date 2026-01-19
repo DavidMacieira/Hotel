@@ -97,15 +97,15 @@ const hotelDB = {   //criei um objeto, é uma simulação de uma base de dados
     utilizadores: [
         {
             id: 1,
-            nome: "Cliente Teste",
-            email: "cliente@exemplo.com",
+            nome: "David Macieira",
+            email: "david@hotel.com",
             password: "123456",
             tipo: "cliente"
         },
         {
             id: 2,
             nome: "Administrador",
-            email: "admin@dwmhotel.com",
+            email: "admin@hotel.com",
             password: "admin123",
             tipo: "admin"
         },
@@ -131,10 +131,6 @@ const hotelDB = {   //criei um objeto, é uma simulação de uma base de dados
     altaTemporada: ["06", "07", "08", "12"],
     baixaTemporada: ["01", "02", "03", "11"], 
     
-
-
-
-
     // ========== FUNÇÕES DO SISTEMA ==========
     
     // Busca um quarto pelo ID - procura um quarto especifico, retorna o quarto ou undefined
