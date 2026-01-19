@@ -3,23 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - DWM Hotel 2026</title>
+    <title>Login - DLL HOTEL</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <!-- Adicionar o novo CSS para login -->
+    <link rel="stylesheet" href="css/login.css">
 </head>
 <body class="login-page">
     <div class="login-container">
         <div class="card login-card">
             <div class="card-body">
-                <h2 class="text-center mb-4">
-                    <i class="fas fa-gem text-ouro"></i> DWM Hotel 2026
-                </h2>
+                <!-- Título da marca -->
+                <div class="brand-title">
+                    <h1><i class="fas fa-gem text-ouro"></i> DLL HOTEL</h1>
+                    <p>Experiência de Luxo</p>
+                </div>
+                
+                <!-- Mensagem de boas-vindas -->
+                <div class="welcome-message">
+                    Bem-vindo ao <strong>Painel de Reservas</strong>. Faça login para acessar sua conta.
+                </div>
+                
                 
                 <!-- Alertas -->
-                <div id="alerta-erro" class="alert alert-danger d-none"></div>
+                <div id="alerta-erro" class="alert alert-danger d-none">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="alerta-texto"></span>
+                </div>
                 
                 <!-- Botões de tipo de usuário -->
-                <div class="btn-group w-100 mb-4" role="group">
+                <div class="btn-group login-type w-100 mb-4" role="group">
                     <button type="button" class="btn btn-ouro active" data-tipo="cliente">
                         <i class="fas fa-user"></i> Cliente
                     </button>
@@ -33,36 +47,33 @@
                     <input type="hidden" id="tipo-utilizador" value="cliente">
                     
                     <div class="mb-3">
-                        <label>Email</label>
-                        <input type="email" class="form-control" id="email" required 
-                               placeholder="exemplo@email.com">
+                        <label for="email">Email</label>
+                        <div class="input-group-icon">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" class="form-control" id="email" required 
+                                   placeholder="exemplo@email.com" autocomplete="email">
+                        </div>
                     </div>
                     
                     <div class="mb-3">
-                        <label>password</label>
-                        <input type="password" class="form-control" id="password" required 
-                               placeholder="••••••">
+                        <label for="password">Password</label>
+                        <div class="input-group-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" class="form-control" id="password" required 
+                                   placeholder="••••••" autocomplete="current-password">
+                        </div>
                     </div>
                     
-                    <button type="submit" class="btn btn-ouro w-100">
+                    <button type="submit" class="btn btn-login-submit" id="btn-login">
                         <i class="fas fa-sign-in-alt"></i> Entrar
                     </button>
                 </form>
                 
-                <div class="text-center mt-3">
-                    <a href="index.html" class="text-decoration-none">
-                        ← Voltar para o site
-                    </a>
-                </div>
+                <!-- Link para voltar -->
+                <a href="index.html" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Voltar para o site
+                </a>
                 
-                <!-- Informações para teste -->
-                <div class="mt-4 p-3 bg-light rounded">
-                    <h6>Credenciais para teste:</h6>
-                    <small>
-                        <strong>Cliente:</strong> cliente@exemplo.com / 123456<br>
-                        <strong>Admin:</strong> admin@dwmhotel.com / admin123
-                    </small>
-                </div>
             </div>
         </div>
     </div>
@@ -71,72 +82,94 @@
     <script>
         // Configura botões de tipo de usuário
         document.querySelectorAll('[data-tipo]').forEach(btn => {
-            btn.addEventListener('click', function() { //adiciona um evento de clique a cada botao .... quando clicar a funcao executa
+            btn.addEventListener('click', function() {
                 // Remove classe ativa de todos
-                document.querySelectorAll('[data-tipo]').forEach(b => { //garante que apenas o botao clicado fique ativo
-                    b.classList.remove('btn-ouro', 'active'); //remove classes css
-                    b.classList.add('btn-outline-ouro');  //adiciona classes css
+                document.querySelectorAll('[data-tipo]').forEach(b => {
+                    b.classList.remove('btn-ouro', 'active');
+                    b.classList.add('btn-outline-ouro');
                 });
                 
                 // Adiciona ao clicado
-                this.classList.remove('btn-outline-ouro'); //o this - botao que foi clicado
+                this.classList.remove('btn-outline-ouro');
                 this.classList.add('btn-ouro', 'active');
                 
                 // Atualiza tipo no formulário
                 document.getElementById('tipo-utilizador').value = this.dataset.tipo;
+                
+                // Atualiza placeholder do email baseado no tipo
+                const emailInput = document.getElementById('email');
+                if (this.dataset.tipo === 'admin') {
+                    emailInput.placeholder = "admin@hotel.com";
+                } else {
+                    emailInput.placeholder = "cliente@email.com";
+                }
             });
         });
         
         // Processa login
-        document.getElementById('form-login').addEventListener('submit', function(e) {  //aqui ele captura o evento de submit do formulario
+        document.getElementById('form-login').addEventListener('submit', function(e) {
             e.preventDefault();
-
-            //aqqui ele captura os dados que o utilizador digitou
-            //o alerta serve para mostrar mensagens de erro
             
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             const tipo = document.getElementById('tipo-utilizador').value;
             const alerta = document.getElementById('alerta-erro');
+            const alertaTexto = document.getElementById('alerta-texto');
+            const btnLogin = document.getElementById('btn-login');
             
             // Limpa alerta anterior
             alerta.classList.add('d-none');
             
-            // Validação simples - verifica se o email e password estao vazios, se tiver mostra o erro
+            // Mostra estado de carregamento
+            btnLogin.classList.add('btn-loading');
+            btnLogin.disabled = true;
+            
+            // Validação
             if (!email || !password) {
                 mostrarErro('Preencha todos os campos!');
+                btnLogin.classList.remove('btn-loading');
+                btnLogin.disabled = false;
                 return;
             }
             
-            //verifica se o email e password correspondem a algum utilizador na "base de dados"
-            const utilizador = hotelDB.utilizadores.find(u =>   //o find retorna o utilizador se encontrar senao diz undefined
-
-                u.email === email && 
-                u.password === password && 
-                u.tipo === tipo
-            );
-            
-            if (utilizador) {
+            // Simula delay de rede
+            setTimeout(function() {
+                // Procura usuário
+                const utilizador = hotelDB.utilizadores.find(u => 
+                    u.email === email && 
+                    u.password === password && 
+                    u.tipo === tipo
+                );
                 
-                localStorage.setItem('utilizador-logado', JSON.stringify(utilizador)); //guarda o utilizador no local storage
-
-                //JSON.stringify  - transforma o objeto em string para poder guardar no local storage
-                
-                if (tipo === 'admin') {
-                    window.location.href = 'admin.html';
+                if (utilizador) {
+                    localStorage.setItem('utilizador-logado', JSON.stringify(utilizador));
+                    
+                    // Redireciona baseado no tipo
+                    if (tipo === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'cliente.html';
+                    }
                 } else {
-                    window.location.href = 'cliente.html';
+                    mostrarErro('Email ou password incorretos!');
+                    btnLogin.classList.remove('btn-loading');
+                    btnLogin.disabled = false;
                 }
-            } else {
-                mostrarErro('Email ou password incorretos!');
-            }
+            }, 800);
         });
         
         // Função para mostrar erros
         function mostrarErro(mensagem) {
             const alerta = document.getElementById('alerta-erro');
-            alerta.textContent = mensagem;
+            const alertaTexto = document.getElementById('alerta-texto');
+            
+            alertaTexto.textContent = mensagem;
             alerta.classList.remove('d-none');
+            
+            // Foca no primeiro campo em caso de erro
+            if (mensagem.includes('Preencha')) {
+                document.getElementById('email').focus();
+            }
         }
         
         // Verifica se já está logado
@@ -150,6 +183,9 @@
                     window.location.href = 'cliente.html';
                 }
             }
+            
+            // Foca no campo email ao carregar
+            document.getElementById('email').focus();
         });
     </script>
 </body>

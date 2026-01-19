@@ -3,8 +3,6 @@
 const hotelDB = {   //criei um objeto, é uma simulação de uma base de dados
     //tudo o que faz parte do sistema estará aqui dentro
 
-
-
     // Array de quartos do hotel
     quartos: [
         {

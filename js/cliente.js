@@ -1,4 +1,4 @@
-// cliente.js - Lógica do Painel do Cliente - DWM Hotel 2026
+// cliente.js - Lógica do Painel do Cliente - DLL HOTEL 2026
 
 // ========== VERIFICAÇÃO DE LOGIN ==========
 

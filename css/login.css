@@ -1,0 +1,382 @@
+/* login.css - Estilos aprimorados para a página de login do DLL HOTEL 2026 */
+
+/* Container principal da página de login */
+.login-page {
+    background: linear-gradient(135deg, var(--cor-azul) 0%, #1a2b3c 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Efeito de fundo decorativo */
+.login-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 70%, rgba(212, 175, 55, 0.05) 0%, transparent 50%);
+    z-index: 1;
+}
+
+/* Container do formulário */
+.login-container {
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Card de login */
+.login-card {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 
+        0 15px 35px rgba(0, 0, 0, 0.25),
+        0 5px 15px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(10px);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Cabeçalho do card */
+.login-card .card-body {
+    padding: 40px 35px;
+}
+
+.login-card h2 {
+    color: var(--cor-azul);
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.8rem;
+    position: relative;
+    padding-bottom: 15px;
+}
+
+.login-card h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--cor-ouro);
+    border-radius: 2px;
+}
+
+/* Botões de seleção de tipo de usuário */
+.btn-group.login-type {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    border: 2px solid rgba(212, 175, 55, 0.2);
+}
+
+.btn-group.login-type .btn {
+    padding: 14px 20px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-group.login-type .btn i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+}
+
+/* Formulário */
+#form-login {
+    margin-top: 20px;
+}
+
+/* Campos do formulário */
+.login-card .form-control {
+    border: 2px solid #e1e5eb;
+    border-radius: 12px;
+    padding: 14px 18px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: #f9fafc;
+    margin-bottom: 20px;
+}
+
+.login-card .form-control:focus {
+    border-color: var(--cor-ouro);
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+    background-color: white;
+}
+
+.login-card label {
+    font-weight: 600;
+    color: var(--cor-azul);
+    margin-bottom: 8px;
+    display: block;
+    font-size: 0.95rem;
+}
+
+/* Grupo de inputs com ícones */
+.input-group-icon {
+    position: relative;
+}
+
+.input-group-icon i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--cor-ouro);
+    font-size: 1.1rem;
+    z-index: 3;
+}
+
+.input-group-icon .form-control {
+    padding-left: 50px;
+}
+
+/* Botão de submit */
+.btn-login-submit {
+    background: linear-gradient(135deg, var(--cor-ouro) 0%, #b8941f 100%);
+    border: none;
+    border-radius: 12px;
+    padding: 16px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--cor-azul);
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+    width: 100%;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+}
+
+.btn-login-submit:hover {
+    background: linear-gradient(135deg, #b8941f 0%, var(--cor-ouro) 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-login-submit:active {
+    transform: translateY(0);
+}
+
+.btn-login-submit i {
+    margin-right: 10px;
+    font-size: 1.2rem;
+}
+
+/* Link de voltar */
+.back-link {
+    display: block;
+    text-align: center;
+    margin-top: 25px;
+    color: var(--cor-azul);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 10px;
+    border-radius: 8px;
+    position: relative;
+}
+
+.back-link:hover {
+    color: var(--cor-ouro);
+    background-color: rgba(212, 175, 55, 0.05);
+    text-decoration: none;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.back-link i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.back-link:hover i {
+    transform: translateX(-3px);
+}
+
+/* Alertas */
+#alerta-erro {
+    border-radius: 12px;
+    padding: 15px 20px;
+    margin-bottom: 25px;
+    border: none;
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.15);
+    display: flex;
+    align-items: center;
+    animation: slideDown 0.4s ease;
+}
+
+#alerta-erro i {
+    margin-right: 12px;
+    font-size: 1.2rem;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Título da marca */
+.brand-title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.brand-title h1 {
+    color: var(--cor-azul);
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.brand-title p {
+    color: var(--cor-cinza-escuro);
+    font-size: 1rem;
+    opacity: 0.8;
+}
+
+/* Decoração adicional */
+.login-decoration {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--cor-ouro);
+}
+
+.login-decoration i {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    display: block;
+}
+
+/* Mensagem de boas-vindas */
+.welcome-message {
+    text-align: center;
+    margin-bottom: 30px;
+    color: var(--cor-azul);
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.welcome-message strong {
+    color: var(--cor-ouro);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .login-card .card-body {
+        padding: 30px 25px;
+    }
+    
+    .login-card h2 {
+        font-size: 1.6rem;
+    }
+    
+    .btn-group.login-type .btn {
+        padding: 12px 15px;
+        font-size: 0.95rem;
+    }
+    
+    .login-container {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-card .card-body {
+        padding: 25px 20px;
+    }
+    
+    .login-card h2 {
+        font-size: 1.4rem;
+    }
+    
+    .btn-group.login-type {
+        flex-direction: column;
+    }
+    
+    .btn-group.login-type .btn {
+        border-radius: 8px !important;
+        margin-bottom: 5px;
+    }
+}
+
+/* Efeitos de foco visíveis para acessibilidade */
+.login-card .form-control:focus-visible {
+    outline: 3px solid var(--cor-ouro);
+    outline-offset: 2px;
+}
+
+/* Estilo para o estado de carregamento */
+.btn-loading {
+    position: relative;
+    color: transparent !important;
+}
+
+.btn-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(26, 35, 50, 0.3);
+    border-top-color: var(--cor-azul);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Alternativa de login */
+.login-alternative {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5eb;
+    color: var(--cor-cinza-escuro);
+    font-size: 0.95rem;
+}
+
+.login-alternative a {
+    color: var(--cor-ouro);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.login-alternative a:hover {
+    text-decoration: underline;
+}
